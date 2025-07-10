@@ -24,8 +24,11 @@ while player["HP"] > 0:
         player['Max_Energy'] += 1
         player['ATK'] += 1
         player['Heal'] += 1
+        player['HP'] = player['Max_HP']
         print('Level increased!')
     input("\nPress Enter to face your next challenge...")
+    if player['HP'] > player['Max_HP']:
+        player['HP'] = player['Max_HP']
     random_event()
 
     if player["HP"] <= 0:

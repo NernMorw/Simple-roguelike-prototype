@@ -5,13 +5,16 @@ from enemies import enemy_types
 
 
 def start_combat():
-
+    
+    heal_cost = 1
     enemy_names = list(enemy_types.keys())
     chosen_enemy_name = random.choice(enemy_names)
     current_enemy = enemy_types[chosen_enemy_name]
+
     enemy_level = current_enemy['Level']
     level_diff = player['Level'] - current_enemy['Level']
     enemy_level_up = 1.1 ** level_diff
+
     if current_enemy['Level'] < player['Level']:
         current_enemy['Level'] = player['Level']
         current_enemy['Max_HP'] *= enemy_level_up
@@ -19,6 +22,14 @@ def start_combat():
 
     enemy_hp = current_enemy['Max_HP']
     enemy_atk = current_enemy['ATK']
+    edmg = random.randint(3, enemy_atk)
+    exp_gained = current_enemy['EXP_Gain']
+
+    is_restored_hp = False
+    if "Heal" in current_enemy:
+        can_heal = True
+    else:
+        can_heal = False
 
     while enemy_hp > 0 and player["HP"] > 0:
 
@@ -34,23 +45,44 @@ def start_combat():
 
         action = input("\n[Attack / Heal / Run]: ").lower()
         if action == "attack":
-            dmg = random.randint(5, player["ATK"])
+            dmg = random.randint(1, player["ATK"])
             enemy_hp -= dmg
-            print(f"You deal {dmg} damage.")
+            print(f"\n\nYou deal {dmg} damage.")
         elif action == "heal":
             healed_amount = random.randint(2, player['Heal'])
-            player['HP'] += healed_amount
-            print(f"You successfully healed for {healed_amount} HP!")
+            if player['Energy'] >= heal_cost:
+                player['HP'] += healed_amount
+                player['Energy'] -= heal_cost
+                print(f"You successfully healed for {healed_amount} HP!")
+            else:
+                print(f"Not enough energy to heal! (Requires {heal_cost} energy)")
             if player['HP'] > player['Max_HP']:
                 player['HP'] = player['Max_HP']
         elif action == "run":
-            print("You fled the battle!")
-            return
-        
+            is_succesfull = random.randint(1, 3)
+            if is_succesfull != 1 and player['Energy'] >= 2:
+                print("You fled the battle!")
+                player['Energy'] -= 2
+                return
+            else:
+                print("You didn't manage to escape!")
+
         if enemy_hp > 0:
-            edmg = random.randint(3, enemy_atk)
-            player["HP"] -= edmg
-            print(f"The enemy hits you for {edmg} damage.")
+            if can_heal == True:
+                if enemy_hp < current_enemy['Max_HP'] - 2 * current_enemy['Heal'] and not is_restored_hp:
+                    enemy_hp += current_enemy['Heal']
+                    print(f"{chosen_enemy_name} heal {current_enemy['Heal']} HP!")
+                    is_restored_hp = True
+                else:
+                    player["HP"] -= edmg
+                    print(f"\nThe enemy hits you for {edmg} damage.")
+                    is_restored_hp = False
+            else:
+                player["HP"] -= edmg
+                print(f"\nThe enemy hits you for {edmg} damage.")
         else:
-            print(f"You defeated the {chosen_enemy_name}!")
-            player['EXP'] += current_enemy['EXP_Gain']
+            print(f"\nYou defeated the {chosen_enemy_name}!")
+            player['EXP'] += exp_gained
+            print(f"You gained {exp_gained} EXP!")
+        
+        input()
