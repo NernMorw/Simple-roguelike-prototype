@@ -37,6 +37,8 @@ while player["HP"] > 0:
         player['Heal'] += 1
         player['HP'] = player['Max_HP']
         print('Level increased!')
+    else:
+        print()
     if player['HP'] > player['Max_HP']:
         player['HP'] = player['Max_HP']
 

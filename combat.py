@@ -20,9 +20,9 @@ def start_combat():
         current_enemy['Max_HP'] *= enemy_level_up
         current_enemy['ATK'] *= enemy_level_up
 
-    enemy_hp = current_enemy['Max_HP']
-    enemy_atk = current_enemy['ATK']
-    edmg = random.randint(3, enemy_atk)
+    enemy_hp = round(current_enemy['Max_HP'])
+    enemy_atk = round(current_enemy['ATK'])
+    edmg = random.randint(3, round(enemy_atk))
     exp_gained = current_enemy['EXP_Gain']
 
     is_restored_hp = False
