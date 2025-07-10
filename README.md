@@ -38,7 +38,7 @@ Planned additions:
 | File         | Description                      |
 |--------------|---------------------------------|
 | `main.py`    | Entry point and main game loop   |
-| `player.py`  | Player stats and leveling system |
+| `player.py`  | Player stats                     |
 | `enemies.py` | Enemy templates and stats        |
 | `combat.py`  | Battle mechanics and logic       |
 | `events.py`  | Random events and encounters     |
