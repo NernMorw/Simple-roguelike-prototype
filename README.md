@@ -61,4 +61,10 @@ Feel free to open issues or pull requests to suggest improvements or new feature
 
 ---
 
+### License
+
+This project is open-source and available under the MIT License.
+
+---
+
 *Enjoy the adventure!*
