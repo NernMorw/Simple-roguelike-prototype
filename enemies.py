@@ -4,6 +4,7 @@ enemy_types = {
         "Max_HP": 30,
         "Level": 1,
         "ATK": 3,
+        "Bleed_Attack": 2,
         "EXP_Gain": 10
     },
     "Ork": {
