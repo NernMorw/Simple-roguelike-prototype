@@ -45,6 +45,7 @@ def start_combat():
         print("Enemy ATK: ", enemy_atk)
 
         action = input("\n[Attack / Heal / Parry / Defence / Run]: ").lower()
+        print('\n\n')
         if action == "attack":
             dmg = random.randint(1, player["ATK"])
             enemy_hp -= dmg
@@ -80,10 +81,12 @@ def start_combat():
             defence_cost = 1
             if player['Energy'] >= defence_cost:
                 D = 2
+                edmg /= D
                 player['Energy'] -= defence_cost
-                print(f"Enemy damage redused in {D} times")
+                print(f"Enemy damage reduced by {D} times")
             else:
                 print(f"Not enough energy to defence! (Requires {defence_cost} energy)")
+        
 
         if enemy_hp > 0:
             if can_heal == True:
@@ -92,11 +95,11 @@ def start_combat():
                     print(f"{chosen_enemy_name} heal {current_enemy['Heal']} HP!")
                     is_restored_hp = True
                 else:
-                    player["HP"] -= edmg / D
+                    player["HP"] -= edmg
                     print(f"\nThe enemy hits you for {edmg} damage.")
                     is_restored_hp = False
             else:
-                player["HP"] -= edmg / D
+                player["HP"] -= edmg
                 print(f"\nThe enemy hits you for {edmg} damage.")
         else:
             print(f"\nYou defeated the {chosen_enemy_name}!")
