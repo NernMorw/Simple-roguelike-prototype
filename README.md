@@ -11,7 +11,7 @@ Battle enemies, level up, survive traps, and rest at camps in a randomly generat
 - Turn-based combat with multiple enemy types  
 - Player leveling system with stat progression  
 - EXP system and scalable difficulty  
-- Modular structure split into logical files (`player.py`, `enemies.py`, `combat.py`, `events.py`, `save_load.py`)  
+- Modular structure split into logical files (`player.py`, `enemies.py`, `combat.py`, `events.py`, `save_load.py`, `main.py`)  
 - Expandable architecture for new features like inventory, saving, or quests  
 
 ---
