@@ -20,11 +20,6 @@ def start_combat():
         current_enemy['Max_HP'] *= enemy_level_up
         current_enemy['ATK'] *= enemy_level_up
 
-    enemy_hp = round(current_enemy['Max_HP'])
-    enemy_atk = round(current_enemy['ATK'])
-    edmg = random.randint(3, round(enemy_atk))
-    exp_gained = current_enemy['EXP_Gain']
-
     is_restored_hp = False
     if "Heal" in current_enemy:
         can_heal = True
@@ -32,6 +27,11 @@ def start_combat():
         can_heal = False
 
     while enemy_hp > 0 and player["HP"] > 0:
+        D = 1
+        enemy_atk = round(current_enemy['ATK'])
+        enemy_hp = round(current_enemy['Max_HP'])
+        edmg = random.randint(3, round(enemy_atk))
+        exp_gained = current_enemy['EXP_Gain']
 
         print("\n", player['Name'])
         print("HP:       ", player['HP'], "/", player['Max_HP'])
@@ -43,7 +43,7 @@ def start_combat():
         print("Enemy HP:  ", enemy_hp)
         print("Enemy ATK: ", enemy_atk)
 
-        action = input("\n[Attack / Heal / Run]: ").lower()
+        action = input("\n[Attack / Heal (1) / Parry (2) / Defence (1) / Run (2)]: ").lower()
         if action == "attack":
             dmg = random.randint(1, player["ATK"])
             enemy_hp -= dmg
@@ -66,6 +66,22 @@ def start_combat():
                 return
             else:
                 print("You didn't manage to escape!")
+        elif action == "parry":
+            parry_cost = 2
+            if Energy >= parry_cost:
+                enemy_hp -= 0.5 * enemy_atk
+                enemy_atk = 0
+                print(f"You hane succsfully parry enemy attack! Enemy take {round(0.5 * enemy_atk)} damage!")
+            else:
+                print(f"Not enough energy to parry! (Requires {parry_cost} energy)")
+        elif action == "defence":
+            defence_cost = 1
+            if Energy >= defence_cost:
+                D = 2
+                Energy -= defence_cost
+                print(f"Enemy damage redused in {D} times")
+            else:
+                print(f"Not enough energy to defence! (Requires {defence_cost} energy)")
 
         if enemy_hp > 0:
             if can_heal == True:
@@ -74,11 +90,11 @@ def start_combat():
                     print(f"{chosen_enemy_name} heal {current_enemy['Heal']} HP!")
                     is_restored_hp = True
                 else:
-                    player["HP"] -= edmg
+                    player["HP"] -= edmg / D
                     print(f"\nThe enemy hits you for {edmg} damage.")
                     is_restored_hp = False
             else:
-                player["HP"] -= edmg
+                player["HP"] -= edmg / D
                 print(f"\nThe enemy hits you for {edmg} damage.")
         else:
             print(f"\nYou defeated the {chosen_enemy_name}!")

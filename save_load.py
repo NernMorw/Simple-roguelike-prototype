@@ -1,4 +1,3 @@
-
 import json
 from player import player
 
@@ -9,7 +8,7 @@ def save_game():
             json.dump(player, f, indent=4)
         print(f"\nGame saved in {SAVE_FILE}")
     except IOError as e:
-        print(f"\nGame seved error: {e}")
+        print(f"\nGame saved error: {e}")
 
 def load_game():
     global player
