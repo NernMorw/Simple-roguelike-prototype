@@ -1,5 +1,5 @@
 # Proto-Game #3
-# Version: prototype-1.7
+# Version: prototype-1.9
 
 from events import random_event
 from player import player

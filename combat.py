@@ -30,6 +30,7 @@ def start_combat():
 
     enemy_hp = round(current_enemy['Max_HP'])
     exp_gained = current_enemy['EXP_Gain']
+    is_restored_hp_time = 0
 
     while enemy_hp > 0 and player["HP"] > 0:
         if is_restored_hp_time > 0:
@@ -54,7 +55,7 @@ def start_combat():
         print("Enemy HP:  ", round(enemy_hp))
         print("Enemy ATK: ", enemy_atk)
 
-        enemy_hp, edmg, bleed, fled = actions(current_enemy, enemy_hp, edmg, bleed, enemy_atk)
+        enemy_hp, edmg, bleed, fled = actions(enemy_hp, edmg, bleed, enemy_atk)
 
         if fled:
             return
