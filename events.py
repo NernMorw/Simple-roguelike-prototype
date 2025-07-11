@@ -27,6 +27,6 @@ def random_event():
             print("You restored: ", heal, "HP")
             print("Your energy has been restored!")
         else:
-            print("You aleredy have max HP")
+            print("You alredy have max HP")
             player['Energy'] = player['Max_Energy']
             print("Your energy has been restored!")

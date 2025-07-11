@@ -60,5 +60,6 @@ while player["HP"] > 0:
         if user_action == "load":
             load_game()
             print("Game loaded!")
+            continue
         else:
             break
