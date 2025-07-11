@@ -1,5 +1,5 @@
 # Proto-Game #3
-# Version: prototype-1.6
+# Version: prototype-1.7
 
 from events import random_event
 from player import player
@@ -14,7 +14,7 @@ if load_choice == 'yes':
     if not game_loaded:
         pass
 else:
-    print("Starting a new game.")
+    print("\nStarting a new game.")
 
 if not game_loaded:
     player_name_set = False

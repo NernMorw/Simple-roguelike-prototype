@@ -26,24 +26,25 @@ def start_combat():
     else:
         can_heal = False
 
+    enemy_hp = round(current_enemy['Max_HP'])
+    exp_gained = current_enemy['EXP_Gain']
+
     while enemy_hp > 0 and player["HP"] > 0:
         D = 1
         enemy_atk = round(current_enemy['ATK'])
-        enemy_hp = round(current_enemy['Max_HP'])
         edmg = random.randint(3, round(enemy_atk))
-        exp_gained = current_enemy['EXP_Gain']
 
         print("\n", player['Name'])
-        print("HP:       ", player['HP'], "/", player['Max_HP'])
+        print("HP:       ", round(player['HP']), "/", player['Max_HP'])
         print("Energy:   ", player['Energy'], "/", player['Max_Energy'])
         print("Level     ", player['Level'])
         print("EXP:      ", player['EXP'], "/", player['Need_EXP'])
         print("\n--- A New Enemy Appears! ---")
         print("\n", chosen_enemy_name)
-        print("Enemy HP:  ", enemy_hp)
+        print("Enemy HP:  ", round(enemy_hp))
         print("Enemy ATK: ", enemy_atk)
 
-        action = input("\n[Attack / Heal (1) / Parry (2) / Defence (1) / Run (2)]: ").lower()
+        action = input("\n[Attack / Heal / Parry / Defence / Run]: ").lower()
         if action == "attack":
             dmg = random.randint(1, player["ATK"])
             enemy_hp -= dmg
@@ -68,17 +69,18 @@ def start_combat():
                 print("You didn't manage to escape!")
         elif action == "parry":
             parry_cost = 2
-            if Energy >= parry_cost:
+            if player['Energy'] >= parry_cost:
                 enemy_hp -= 0.5 * enemy_atk
-                enemy_atk = 0
+                edmg = 0
+                player['Energy'] -= parry_cost
                 print(f"You hane succsfully parry enemy attack! Enemy take {round(0.5 * enemy_atk)} damage!")
             else:
                 print(f"Not enough energy to parry! (Requires {parry_cost} energy)")
         elif action == "defence":
             defence_cost = 1
-            if Energy >= defence_cost:
+            if player['Energy'] >= defence_cost:
                 D = 2
-                Energy -= defence_cost
+                player['Energy'] -= defence_cost
                 print(f"Enemy damage redused in {D} times")
             else:
                 print(f"Not enough energy to defence! (Requires {defence_cost} energy)")
