@@ -14,8 +14,14 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         fire_arrow_damg = 15
         heal_magic_heal = 10 * player['Level']
 
-        action = input("\n[Attack / Strong Attack / Heal / Parry / Defence / Magic / Rest / Run]: ").lower()
+        valid_actions = ["attack", "strong attack", "heal", "parry", "defence", "magic", "rest", "run"]
+        action = ""
+        while action not in valid_actions:
+            action = input("\n[Attack / Strong Attack / Heal / Parry / Defence / Magic / Rest / Run]: ").lower()
+            if action not in valid_actions:
+                print("Invalid action. Please choose from the list.")
         print('\n')
+
         if action == "attack":
             dmg = random.randint(1, player["ATK"])
             enemy_hp -= dmg
@@ -44,7 +50,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         elif action == "parry":
             parry_cost = 2
             if player['Energy'] >= parry_cost:
-                enemy_hp -= 0.5 * edmg
+                enemy_hp -= round(0.5 * edmg)
                 edmg = 0
                 player['Energy'] -= parry_cost
                 print(f"You have successfully parry enemy attack! Enemy take {round(0.5 * enemy_atk)} damage!")
@@ -80,6 +86,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             print()
             magic_action = input("").lower()
             print()
+            
             if magic_action == "fire arrow":
                 if player['Energy'] >= fire_arrow_cost:
                     enemy_hp -= fire_arrow_damg

@@ -42,6 +42,7 @@ def start_combat():
             is_restored_hp_time -= 1
         else:
             is_restored_hp = False
+
         if bleed > 0:
             bleed -= 1
 
@@ -50,14 +51,14 @@ def start_combat():
         bleed_attack = 0.4 * edmg
         bdmg = random.randint(1, 5)
 
-        if spawn_skeleton:
+        if spawn_skeleton and not skeleton_spawned:
             skeleton_hp = 20 * necromancy_level_up
             skeleton_atk = 4 * necromancy_level_up
             skeleton_level = player["Level"]
             can_necromancy = False
             skeleton_spawned = True
             print("\nSkeleton has been spawned")
-        else:
+        elif not spawn_skeleton and not skeleton_spawned:
             skeleton_hp = 1
         
         print(f"\n-- {player['Name']} --")
@@ -72,7 +73,6 @@ def start_combat():
             print(f"HP: {round(skeleton_hp)}")
             print(f"ATK: {round(skeleton_atk)}")
             
-        print("\n--- A New Enemy Appears! ---")
         print(f"\n-- {chosen_enemy_name} --")
         print("Enemy HP:  ", round(enemy_hp))
         print("Enemy ATK: ", enemy_atk)
@@ -133,4 +133,5 @@ def start_combat():
             can_necromancy = True
             spawn_skeleton = False
             skeleton_spawned = False
+            
         input()

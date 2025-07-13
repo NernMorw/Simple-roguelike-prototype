@@ -1,5 +1,5 @@
 # Proto-Game #3
-# Version: prototype-1.9
+# Version: prototype-1.10
 
 from events import random_event
 from player import player
@@ -40,6 +40,7 @@ while player["HP"] > 0:
         print('---Level increased!---')
     else:
         print()
+        
     if player['HP'] > player['Max_HP']:
         player['HP'] = player['Max_HP']
 
