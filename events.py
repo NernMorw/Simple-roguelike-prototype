@@ -17,7 +17,7 @@ def random_event():
         player['Energy'] -= endmg
         print(f"\nA hidden trap! You lose {dmg} HP.")
         print(f"You lose {endmg} energy.")
-        print(" Current HP: ", player['HP'])
+        print(" Current HP: ", round(player['HP']))
     elif event_type == "camp":
         print("\nYou visited the camp")
         if player['HP'] < player['Max_HP']:

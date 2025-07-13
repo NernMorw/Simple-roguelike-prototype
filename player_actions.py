@@ -2,13 +2,15 @@ import random
 from player import player
 
 
-def actions(enemy_hp, edmg, bleed, enemy_atk):
+def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         heal_cost = 1
         fire_arrow_cost = 2
         necromancy_cost = 3
         heal_magic_cost = 2
         D = 1
+        rest = 1
 
+        spawn_skeleton = False
         fire_arrow_damg = 15
         heal_magic_heal = 10 * player['Level']
 
@@ -58,7 +60,6 @@ def actions(enemy_hp, edmg, bleed, enemy_atk):
             else:
                 print(f"Not enough energy to defence! (Requires {defence_cost} energy)")
         elif action == "rest":
-            rest = 1
             player['Energy'] += rest
             print(f"You have recovered {rest} energy!")
         elif action == "strong" or action == "strong attack":
@@ -74,7 +75,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk):
             
             print("--- Magick types ---")
             print(f"Fire arrow, cost: {fire_arrow_cost} energy.")
-            print(f"Necromancy, cost: {necromancy_cost} energy. (Coming soon)")
+            print(f"Necromancy, cost: {necromancy_cost} energy.")
             print(f"Heal magic, cost: {heal_magic_cost} energy.")
             print()
             magic_action = input("").lower()
@@ -88,9 +89,12 @@ def actions(enemy_hp, edmg, bleed, enemy_atk):
                 else:
                     print(f"Not enough energy for a fire arrow! (Requires {fire_arrow_cost} energy)")
             elif magic_action == "necromancy":
-                if player['Energy'] >= necromancy_cost:
+                if player['Energy'] >= necromancy_cost and can_necromancy:
                     player['Energy'] -= necromancy_cost
                     print("You have successfully cast necromancy!")
+                    spawn_skeleton = True
+                elif not can_necromancy:
+                    print("You can't cast necromancy!")
                 else:
                     print(f"Not enough energy for a necromancy! (Requires {necromancy_cost} energy)")
             elif magic_action == "heal magic":
@@ -106,4 +110,4 @@ def actions(enemy_hp, edmg, bleed, enemy_atk):
         else:
             print("Invalid action.")
 
-        return enemy_hp, edmg, bleed, False
+        return enemy_hp, edmg, bleed, False, spawn_skeleton

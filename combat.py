@@ -6,12 +6,16 @@ from player_actions import actions
 
 def start_combat():
     bleed = 0
+    can_necromancy = True
+    spawn_skeleton = False
+    skeleton_spawned = False
     enemy_names = list(enemy_types.keys())
     chosen_enemy_name = random.choice(enemy_names)
     current_enemy = enemy_types[chosen_enemy_name]
 
     level_diff = player['Level'] - current_enemy['Level']
     enemy_level_up = 1.1 ** level_diff
+    necromancy_level_up = 1.3 ** player["Level"]
 
     if current_enemy['Level'] < player['Level']:
         current_enemy['Level'] = player['Level']
@@ -33,6 +37,7 @@ def start_combat():
     is_restored_hp_time = 0
 
     while enemy_hp > 0 and player["HP"] > 0:
+        damage_taken = 0
         if is_restored_hp_time > 0:
             is_restored_hp_time -= 1
         else:
@@ -45,23 +50,50 @@ def start_combat():
         bleed_attack = 0.4 * edmg
         bdmg = random.randint(1, 5)
 
-        print("\n", player['Name'])
+        if spawn_skeleton:
+            skeleton_hp = 20 * necromancy_level_up
+            skeleton_atk = 4 * necromancy_level_up
+            skeleton_level = player["Level"]
+            can_necromancy = False
+            skeleton_spawned = True
+            print("\nSkeleton has been spawned")
+        else:
+            skeleton_hp = 1
+        
+        print(f"\n-- {player['Name']} --")
         print("HP:       ", round(player['HP']), "/", player['Max_HP'])
         print("Energy:   ", player['Energy'], "/", player['Max_Energy'])
         print("Level     ", player['Level'])
         print("EXP:      ", player['EXP'], "/", player['Need_EXP'])
+
+        if skeleton_spawned:
+            print("\n- Skeleton -")
+            print(f"Level: {skeleton_level}")
+            print(f"HP: {round(skeleton_hp)}")
+            print(f"ATK: {round(skeleton_atk)}")
+            
         print("\n--- A New Enemy Appears! ---")
-        print("\n", chosen_enemy_name)
+        print(f"\n-- {chosen_enemy_name} --")
         print("Enemy HP:  ", round(enemy_hp))
         print("Enemy ATK: ", enemy_atk)
 
-        enemy_hp, edmg, bleed, fled = actions(enemy_hp, edmg, bleed, enemy_atk)
+        enemy_hp, edmg, bleed, fled, spawn_skeleton = actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
+
+        if skeleton_spawned:
+            sdmg = random.randint(1, round(skeleton_atk))
+            enemy_hp -= sdmg
+            print(f"Skeleton deal {sdmg} damage")
 
         if fled:
             return
 
         if player['HP'] > player['Max_HP']:
             player['HP'] = player['Max_HP']
+
+        if skeleton_spawned:
+            ally_name = "Skeleton"
+        else:
+            ally_name = player["Name"]
 
         if enemy_hp > 0:
             if can_heal == True:
@@ -71,25 +103,34 @@ def start_combat():
                     is_restored_hp = True
                     is_restored_hp_time = 1
                 else:
-                    player["HP"] -= edmg
-                    print(f"\nThe enemy hits you for {edmg} damage.")
+                    damage_taken -= edmg
+                    print(f"\nThe enemy hits {ally_name} for {edmg} damage.")
                     is_restored_hp = False
             elif can_bleed_attack:
                 if bleed == 0:
                     bleed = current_enemy['Bleed_Attack']
-                    player['HP'] -= bleed_attack
-                    print(f"The enemy hits you with a bloody attack for {round(bleed_attack)} damage.")
+                    damage_taken -= bleed_attack
+                    print(f"The enemy hits {ally_name} with a bloody attack for {round(bleed_attack)} damage.")
                 else:
-                    player['HP'] -= edmg
-                    player['HP'] -= bdmg
-                    print(f"\nThe enemy hits you for {edmg} damage.")
-                    print(f"You lost {bdmg} HP due to bleeding.")
+                    damage_taken -= edmg
+                    damage_taken -= bdmg
+                    print(f"\nThe enemy hits {ally_name} for {edmg} damage.")
+                    print(f"{ally_name} lost {bdmg} HP due to bleeding.")
             else:
-                player["HP"] -= edmg
-                print(f"\nThe enemy hits you for {edmg} damage.")
+                damage_taken -= edmg
+                print(f"\nThe enemy hits {ally_name} for {edmg} damage.")
         else:
             print(f"\nYou defeated the {chosen_enemy_name}!")
             player['EXP'] += exp_gained
             print(f"You gained {exp_gained} EXP!")
         
+        if skeleton_spawned:
+            skeleton_hp += damage_taken
+        else:
+            player["HP"] += damage_taken
+
+        if skeleton_hp <= 0:
+            can_necromancy = True
+            spawn_skeleton = False
+            skeleton_spawned = False
         input()
