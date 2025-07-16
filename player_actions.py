@@ -11,8 +11,8 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         rest = 1
 
         spawn_skeleton = False
-        fire_arrow_damg = 15
-        heal_magic_heal = 10 * player['Level']
+        fire_arrow_damg = random.randint(15, 15 * player['Level'])
+        heal_magic_heal = random.randint(10, 10 * player['Level'])
 
         valid_actions = ["attack", "strong attack", "heal", "parry", "defence", "magic", "rest", "run"]
         action = ""
@@ -84,9 +84,15 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             print(f"Necromancy, cost: {necromancy_cost} energy.")
             print(f"Heal magic, cost: {heal_magic_cost} energy.")
             print()
-            magic_action = input("").lower()
-            print()
-            
+                
+            valid_magic_actions = ["fire arrow", "necromancy", "heal magic"]
+            magic_action = 1
+            while magic_action not in valid_magic_actions:
+                magic_action = input("").lower()
+                if magic_action not in valid_magic_actions:
+                    print("Invalid magic action. Please choose from the list.")
+            print('\n')
+
             if magic_action == "fire arrow":
                 if player['Energy'] >= fire_arrow_cost:
                     enemy_hp -= fire_arrow_damg
