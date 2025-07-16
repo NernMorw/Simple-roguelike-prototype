@@ -1,7 +1,8 @@
 import random
 from player import player
 from enemies import enemy_types
-from player_actions import actions
+from player_actions import actions, add_item_to_inventory
+from items import item
 
 
 def start_combat():
@@ -123,6 +124,10 @@ def start_combat():
             print(f"\nYou defeated the {chosen_enemy_name}!")
             player['EXP'] += exp_gained
             print(f"You gained {exp_gained} EXP!")
+            if random.random() < 0.5:
+                possible_items = list(item.keys())
+                dropped_item_key = random.choice(possible_items)
+                add_item_to_inventory(player, dropped_item_key, item)
         
         if skeleton_spawned:
             skeleton_hp += damage_taken

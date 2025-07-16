@@ -1,6 +1,19 @@
 import random
 from player import player
+from items import item
 
+def add_item_to_inventory(player_data, item_key, items_data):
+    if item_key in items_data:
+        if item_key in player_data["Inventory"]:
+            player_data["Inventory"][item_key]["Count"] += 1
+            print(f"Count of {items_data[item_key]['Name']} increased to {player_data['Inventory'][item_key]['Count']}.")
+        else:
+            new_item = items_data[item_key].copy()
+            new_item["Count"] = 1
+            player_data["Inventory"][item_key] = new_item
+            print(f"{items_data[item_key]['Name']} added to inventory. Count: 1.")
+    else:
+        print(f"Item '{item_key}' does not exist.")
 
 def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         heal_cost = 1
@@ -14,10 +27,10 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         fire_arrow_damg = random.randint(15, 15 * player['Level'])
         heal_magic_heal = random.randint(10, 10 * player['Level'])
 
-        valid_actions = ["attack", "strong attack", "heal", "parry", "defence", "magic", "rest", "run"]
+        valid_actions = ["attack", "strong attack", "heal", "parry", "defence", "magic", "rest", "run", "inventory"]
         action = ""
         while action not in valid_actions:
-            action = input("\n[Attack / Strong Attack / Heal / Parry / Defence / Magic / Rest / Run]: ").lower()
+            action = input("\n[Attack / Strong Attack / Heal / Parry / Defence / Magic / Rest / Run / Inventory]: ").lower()
             if action not in valid_actions:
                 print("Invalid action. Please choose from the list.")
         print('\n')
@@ -44,7 +57,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             if is_succesfull != 1 and player['Energy'] >= 2:
                 print("You fled the battle!")
                 player['Energy'] -= 2
-                return enemy_hp, edmg, bleed, True
+                return enemy_hp, edmg, bleed, True, spawn_skeleton
             else:
                 print("You didn't manage to escape!")
         elif action == "parry":
@@ -120,6 +133,44 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                     print(f"Not enough energy for a heal magic! (Requires {heal_magic_cost} energy)")
             else:
                 print("Invalid magic type.")
+        elif action == "inventory":
+            if not player["Inventory"]:
+                print("Your inventory is empty.")
+            else:
+                print("\n--- Inventory ---")
+                for item_key, item_details in player["Inventory"].items():
+                    print(f"- {item_details['Name']} (Count: {item_details['Count']})")
+                print("---------------------")
+                
+                if player["Inventory"]:
+                    use_item_choice = input("Would you like to use the item? (name/no): ").lower()
+                    if use_item_choice != "no":
+                        item_found = False
+                        for item_key, item_details in player["Inventory"].items():
+                            if use_item_choice == item_details['Name'].lower():
+                                item_found = True
+                                if item_details['Count'] > 0:
+                                    if "Heal" in item_details:
+                                        player['HP'] += item_details['Heal']
+                                        print(f"You used {item_details['Name']} and heal {item_details['Heal']} HP.")
+                                    elif "EHeal" in item_details:
+                                        player['Energy'] += item_details['EHeal']
+                                        print(f"You used {item_details['Name']} and restore {item_details['EHeal']} energy.")
+                                    elif "Damage" in item_details:
+                                        enemy_hp -= item_details['Damage']
+                                        print(f"You used {item_details['Name']} and deal {item_details['Damage']} damage.")
+                                    
+                                    item_details['Count'] -= 1
+                                    if item_details['Count'] == 0:
+                                        del player["Inventory"][item_key]
+                                        print(f"{item_details['Name']} has expired and has been removed from inventory.")
+                                else:
+                                    print(f"You don't have {item_details['Name']}.")
+                                break
+                        if not item_found:
+                            print("Invalid item name.")
+                    else:
+                        print("You have decided not to use the item.")
         else:
             print("Invalid action.")
 

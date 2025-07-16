@@ -1,10 +1,12 @@
 import random
 from combat import start_combat
 from player import player
+from player_actions import add_item_to_inventory
+from items import item
 
 def random_event():
-    events = ["combat", "trap", "camp"]
-    weights = [4, 2, 1]
+    events = ["combat", "trap", "camp", "loot"] 
+    weights = [4, 2, 1, 1] 
     event_type = random.choices(events, weights=weights, k=1)[0]
 
     if event_type == "combat":
@@ -27,6 +29,11 @@ def random_event():
             print("You restored: ", heal, "HP")
             print("Your energy has been restored!")
         else:
-            print("You alredy have max HP")
+            print("You already have max HP")
             player['Energy'] = player['Max_Energy']
             print("Your energy has been restored!")
+    elif event_type == "loot":
+        print("\nYou found a mysterious chest!")
+        possible_items = list(item.keys())
+        found_item_key = random.choice(possible_items)
+        add_item_to_inventory(player, found_item_key, item)

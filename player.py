@@ -8,5 +8,6 @@ player = {
     "EXP": 0,
     "Need_EXP": 100,
     "ATK": 10,
-    "Heal": 10
+    "Heal": 10,
+    "Inventory": { }
 }
