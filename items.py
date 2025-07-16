@@ -1,6 +1,6 @@
 item = {
-    "Heal_poision": {
-        "Name": "Heal poision",
+    "Heal_potion": {
+        "Name": "Heal potion",
         "Heal": 15,
         "Count": 0
     },
@@ -9,8 +9,8 @@ item = {
         "Damage": 20,
         "Count": 0
     },
-    "Energy_poision": {
-        "Name": "Energy poision",
+    "Energy_potion": {
+        "Name": "Energy potion",
         "EHeal": 3,
         "Count": 0
     }

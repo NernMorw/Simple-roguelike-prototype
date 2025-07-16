@@ -144,6 +144,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                 
                 if player["Inventory"]:
                     use_item_choice = input("Would you like to use the item? (name/no): ").lower()
+                    print()
                     if use_item_choice != "no":
                         item_found = False
                         for item_key, item_details in player["Inventory"].items():
@@ -163,7 +164,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                                     item_details['Count'] -= 1
                                     if item_details['Count'] == 0:
                                         del player["Inventory"][item_key]
-                                        print(f"{item_details['Name']} has expired and has been removed from inventory.")
+                                        print(f"\n{item_details['Name']} has expired and has been removed from inventory.")
                                 else:
                                     print(f"You don't have {item_details['Name']}.")
                                 break
