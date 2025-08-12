@@ -27,8 +27,8 @@ Battle enemies, level up, survive traps, and rest at camps in a randomly generat
 
 Planned additions:  
 - <del>Game saving/loading</del>
-- Inventory system  
-- Item drops and loot  
+- <del>Inventory system</del>
+- <del>Item drops and loot</del> 
 - More advanced enemy behavior and skills  
 
 ---
