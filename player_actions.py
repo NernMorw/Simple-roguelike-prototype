@@ -160,11 +160,17 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                                     elif "Damage" in item_details:
                                         enemy_hp -= item_details['Damage']
                                         print(f"You used {item_details['Name']} and deal {item_details['Damage']} damage.")
-                                    
+                                    elif "U_add" in item_details:
+                                        player['UPoint'] += item_details['U_add']
+                                        print(f"You used {item_details['Name']} and gained {item_details['U_add']} upgrade point.")
+                                    elif "EXP_add" in item_details:
+                                        player['EXP'] += item_details['EXP_add']
+                                        print(f"You used {item_details['Name']} and gained {item_details['EXP_add']} EXP point.")
+
                                     item_details['Count'] -= 1
                                     if item_details['Count'] == 0:
                                         del player["Inventory"][item_key]
-                                        print(f"\n{item_details['Name']} has expired and has been removed from inventory.")
+                                        print(f"\n{item_details['Name']} has been used up and has been removed from inventory.")
                                 else:
                                     print(f"You don't have {item_details['Name']}.")
                                 break

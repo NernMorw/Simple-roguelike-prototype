@@ -9,5 +9,6 @@ player = {
     "Need_EXP": 100,
     "ATK": 10,
     "Heal": 10,
+    "UPoint": 0,
     "Inventory": { }
 }

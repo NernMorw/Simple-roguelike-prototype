@@ -13,5 +13,15 @@ item = {
         "Name": "Energy potion",
         "EHeal": 3,
         "Count": 0
+    },
+    "EXP_potion": {
+        "Name": "EXP potion",
+        "EXP_add": 50,
+        "Count": 0
+    },
+    "UPoint_potion": {
+        "Name": "Upgrade point potion",
+        "U_add": 1,
+        "Count": 0
     }
 }

@@ -1,5 +1,5 @@
 # Proto-Game #3
-# Version: prototype-1.11
+# Version: prototype-1.12
 
 from events import random_event
 from player import player
@@ -35,6 +35,7 @@ while player["HP"] > 0:
         player['Max_Energy'] += 1
         player['ATK'] += 1
         player['Heal'] += 1
+        player['UPoint'] += 5
         player['Energy'] = player['Max_Energy']
         player['HP'] = player['Max_HP']
         print('---Level increased!---')
