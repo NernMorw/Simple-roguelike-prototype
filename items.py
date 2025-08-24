@@ -21,7 +21,7 @@ item = {
     },
     "UPoint_potion": {
         "Name": "Upgrade point potion",
-        "U_add": 1,
+        "S_add": 1,
         "Count": 0
     }
 }

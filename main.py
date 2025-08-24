@@ -1,5 +1,5 @@
 # Proto-Game #3
-# Version: prototype-1.12
+# Version: prototype-1.2
 
 from events import random_event
 from player import player
@@ -24,23 +24,25 @@ if not game_loaded:
             player['Name'] = name
             player_name_set = True
         else:
-            print("Please enter a valid name.")
+            print("\nPlease enter a valid name.")
 
 while player["HP"] > 0:
-    if player['Need_EXP'] <= player['EXP']:
-        player['EXP'] -= player['Need_EXP']
-        player['Level'] += 1
-        player['Need_EXP'] += 50
-        player['Max_HP'] += 10
-        player['Max_Energy'] += 1
-        player['ATK'] += 1
-        player['Heal'] += 1
-        player['UPoint'] += 5
-        player['Energy'] = player['Max_Energy']
-        player['HP'] = player['Max_HP']
-        print('---Level increased!---')
-    else:
-        print()
+    while player['Need_EXP'] <= player['EXP']:
+        if player['Need_EXP'] <= player['EXP']:
+            player['EXP'] -= player['Need_EXP']
+            player['Level'] += 1
+            player['Need_EXP'] += 50
+            player['Max_HP'] += 10
+            player['Max_Energy'] += 1
+            player['ATK'] += 1
+            player['Heal'] += 1
+            player['UPoint'] += 5
+            player['Energy'] = player['Max_Energy']
+            player['HP'] = player['Max_HP']
+            print('---Level increased!---')
+        else:
+            break
+    print()
         
     if player['HP'] > player['Max_HP']:
         player['HP'] = player['Max_HP']

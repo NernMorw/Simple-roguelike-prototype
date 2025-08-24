@@ -67,6 +67,7 @@ def start_combat():
         print("Energy:   ", player['Energy'], "/", player['Max_Energy'])
         print("Level     ", player['Level'])
         print("EXP:      ", player['EXP'], "/", player['Need_EXP'])
+        print("SPoints:  ", player['SPoint'])
 
         if skeleton_spawned:
             print("\n- Skeleton -")

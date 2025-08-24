@@ -27,10 +27,10 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         fire_arrow_damg = random.randint(15, 15 * player['Level'])
         heal_magic_heal = random.randint(10, 10 * player['Level'])
 
-        valid_actions = ["attack", "strong attack", "heal", "parry", "defence", "magic", "rest", "run", "inventory"]
+        valid_actions = ["attack", "strong attack", "heal", "parry", "defence", "magic", "rest", "run", "inventory", "skill", "use skill points"]
         action = ""
         while action not in valid_actions:
-            action = input("\n[Attack / Strong Attack / Heal / Parry / Defence / Magic / Rest / Run / Inventory]: ").lower()
+            action = input("\n[Attack / Strong Attack / Heal / Parry / Defence / Magic / Rest / Run / Inventory / use skill points (skill)]: ").lower()
             if action not in valid_actions:
                 print("Invalid action. Please choose from the list.")
         print('\n')
@@ -160,9 +160,9 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                                     elif "Damage" in item_details:
                                         enemy_hp -= item_details['Damage']
                                         print(f"You used {item_details['Name']} and deal {item_details['Damage']} damage.")
-                                    elif "U_add" in item_details:
-                                        player['UPoint'] += item_details['U_add']
-                                        print(f"You used {item_details['Name']} and gained {item_details['U_add']} upgrade point.")
+                                    elif "S_add" in item_details:
+                                        player['SPoint'] += item_details['S_add']
+                                        print(f"You used {item_details['Name']} and gained {item_details['S_add']} upgrade point.")
                                     elif "EXP_add" in item_details:
                                         player['EXP'] += item_details['EXP_add']
                                         print(f"You used {item_details['Name']} and gained {item_details['EXP_add']} EXP point.")
@@ -178,6 +178,51 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                             print("Invalid item name.")
                     else:
                         print("You have decided not to use the item.")
+        elif action == "use skill points" or action == "skill":
+            increase_hp = 10
+            increase_eng = 1
+            increase_atk = 1
+            increase_heal = 1
+            heal_point_cost = 10
+            
+            print(f"Increase cost = {player['SCost']}.")
+            print(f"Print 'hp' for increase your max HP by {increase_hp}.")
+            print(f"Print 'en' to increase your max energy by {increase_eng}.")
+            print(f"Print 'atk' to increase your attack power by {increase_atk}.")
+            print(f"Print 'heal' to increase your heal power by {increase_heal}.")
+            print(f"Print 'restore' to restore your hp and energy for {heal_point_cost} skill points.")
+            
+            increase_input = input().lower()
+            if increase_input == "restore":
+                player['HP'] = player['Max_HP']
+                player['Energy'] = player['Max_Energy']
+                player['SPoint'] -= heal_point_cost
+                print("You have successfully restore your HP and energy")
+            elif player['SPoint'] >= player['SCost']:
+                if increase_input == "hp":
+                    player['Max_HP'] += increase_hp
+                    player['SPoint'] -= player['SCost']
+                    player['SCost'] += 1
+                    print("You have successfully increase your max HP.")
+                elif increase_input == "en":
+                    player['Max_Energy'] += increase_eng
+                    player['SPoint'] -= player['SCost']
+                    player['SCost'] += 1
+                    print("You have successfully increase your max energy.")
+                elif increase_input == "atk":
+                    player['ATK'] += increase_atk
+                    player['SPoint'] -= player['SCost']
+                    player['SCost'] += 1
+                    print("You have successfully increase your attack power.")
+                elif increase_input == "heal":
+                    player['Heal'] += increase_heal
+                    player['SPoint'] -= player['SCost']
+                    player['SCost'] += 1
+                    print("You have successfully increase your heal power.")
+                else:
+                    print("Invalid action.")
+            else:
+                print("Not enough SPoints")
         else:
             print("Invalid action.")
 
