@@ -18,7 +18,7 @@ def add_item_to_inventory(player_data, item_key, items_data):
 def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         heal_cost = 1
         fire_arrow_cost = 2
-        necromancy_cost = 3
+        necromancy_cost = 4
         heal_magic_cost = 2
         D = 1
         rest = 1
@@ -79,8 +79,13 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             else:
                 print(f"Not enough energy to defence! (Requires {defence_cost} energy)")
         elif action == "rest":
-            player['Energy'] += rest
-            print(f"You have recovered {rest} energy!")
+            if player['Energy'] < player['Max_Energy']:
+                player['Energy'] += rest
+                print(f"You have recovered {rest} energy!")
+            else:
+                print("Invalid action.")
+            if player['Energy'] = player['Max_Energy']:
+                print("You have max energy!")
         elif action == "strong" or action == "strong attack":
             strong_attack_cost = 2
             if player['Energy'] >= strong_attack_cost:
