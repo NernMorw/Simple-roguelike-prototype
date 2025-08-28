@@ -8,11 +8,12 @@ from items import item
 def start_combat():
     bleed = 0
     can_necromancy = True
-    spawn_skeleton = False
-    skeleton_spawned = False
+    spawn_necro = False
+    necro_spawned = False
     enemy_names = list(enemy_types.keys())
     chosen_enemy_name = random.choice(enemy_names)
     current_enemy = enemy_types[chosen_enemy_name]
+    necromancy_name = (f"Zoombe {player['Last_Enemy']}")
 
     level_diff = player['Level'] - current_enemy['Level']
     enemy_level_up = 1.1 ** level_diff
@@ -52,16 +53,16 @@ def start_combat():
         bleed_attack = 0.4 * edmg
         bdmg = random.randint(1, 5)
 
-        if spawn_skeleton and not skeleton_spawned:
-            skeleton_hp = 20 * necromancy_level_up
-            skeleton_atk = 4 * necromancy_level_up
-            skeleton_level = player["Level"]
+        if spawn_necro and not necro_spawned:
+            necro_hp = round(enemy_types[player['Last_Enemy']]['Max_HP'] * 0.8)
+            necro_atk = round(enemy_types[player['Last_Enemy']]['ATK'] * 0.4)
+            necro_level = player["Level"]
             can_necromancy = False
-            skeleton_spawned = True
-            print("\nSkeleton has been spawned")
-        elif not spawn_skeleton and not skeleton_spawned:
-            skeleton_hp = 1
-        
+            necro_spawned = True
+            print("\nnecro has been spawned")
+        elif not spawn_necro and not necro_spawned:
+            necro_hp = 1
+        print(necromancy_name)
         print(f"\n-- {player['Name']} --")
         print("HP:       ", round(player['HP']), "/", player['Max_HP'])
         print("Energy:   ", player['Energy'], "/", player['Max_Energy'])
@@ -69,22 +70,22 @@ def start_combat():
         print("EXP:      ", player['EXP'], "/", player['Need_EXP'])
         print("SPoints:  ", player['SPoint'])
 
-        if skeleton_spawned:
-            print("\n- Skeleton -")
-            print(f"Level: {skeleton_level}")
-            print(f"HP: {round(skeleton_hp)}")
-            print(f"ATK: {round(skeleton_atk)}")
+        if necro_spawned:
+            print(f"\n- {necromancy_name} -")
+            print(f"Level: {necro_level}")
+            print(f"HP: {round(necro_hp)}")
+            print(f"ATK: {round(necro_atk)}")
             
         print(f"\n-- {chosen_enemy_name} --")
         print("Enemy HP:  ", round(enemy_hp))
         print("Enemy ATK: ", enemy_atk)
 
-        enemy_hp, edmg, bleed, fled, spawn_skeleton = actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
+        enemy_hp, edmg, bleed, fled, spawn_necro = actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
 
-        if skeleton_spawned:
-            sdmg = random.randint(1, round(skeleton_atk))
+        if necro_spawned:
+            sdmg = random.randint(1, round(necro_atk))
             enemy_hp -= sdmg
-            print(f"Skeleton deal {sdmg} damage")
+            print(f"necro deal {sdmg} damage")
 
         if fled:
             return
@@ -92,8 +93,8 @@ def start_combat():
         if player['HP'] > player['Max_HP']:
             player['HP'] = player['Max_HP']
 
-        if skeleton_spawned:
-            ally_name = "Skeleton"
+        if necro_spawned:
+            ally_name = "necro"
         else:
             ally_name = player["Name"]
 
@@ -125,19 +126,21 @@ def start_combat():
             print(f"\nYou defeated the {chosen_enemy_name}!")
             player['EXP'] += exp_gained
             print(f"You gained {exp_gained} EXP!")
+            player['Last_Enemy'] = chosen_enemy_name
             if random.random() < 0.5:
                 possible_items = list(item.keys())
                 dropped_item_key = random.choice(possible_items)
                 add_item_to_inventory(player, dropped_item_key, item)
         
-        if skeleton_spawned:
-            skeleton_hp += damage_taken
+        if necro_spawned:
+            necro_hp += damage_taken
         else:
             player["HP"] += damage_taken
 
-        if skeleton_hp <= 0:
+        if necro_hp <= 0:
             can_necromancy = True
-            spawn_skeleton = False
-            skeleton_spawned = False
+            spawn_necro = False
+            necro_spawned = False
             
         input()
+start_combat()

@@ -23,7 +23,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         D = 1
         rest = 1
 
-        spawn_skeleton = False
+        spawn_necro = False
         fire_arrow_damg = random.randint(15, 15 * player['Level'])
         heal_magic_heal = random.randint(10, 10 * player['Level'])
 
@@ -57,7 +57,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             if is_succesfull != 1 and player['Energy'] >= 2:
                 print("You fled the battle!")
                 player['Energy'] -= 2
-                return enemy_hp, edmg, bleed, True, spawn_skeleton
+                return enemy_hp, edmg, bleed, True, spawn_necro
             else:
                 print("You didn't manage to escape!")
         elif action == "parry":
@@ -118,7 +118,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                 if player['Energy'] >= necromancy_cost and can_necromancy:
                     player['Energy'] -= necromancy_cost
                     print("You have successfully cast necromancy!")
-                    spawn_skeleton = True
+                    spawn_necro = True
                 elif not can_necromancy:
                     print("You can't cast necromancy!")
                 else:
@@ -191,8 +191,17 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             print(f"Print 'atk' to increase your attack power by {increase_atk}.")
             print(f"Print 'heal' to increase your heal power by {increase_heal}.")
             print(f"Print 'restore' to restore your hp and energy for {heal_point_cost} skill points.")
-            
+
             increase_input = input().lower()
+            valid_actions = ["hp", "en", "atk", "heal", "restore"]
+            action = increase_input
+            while action not in valid_actions:
+                increase_input = input().lower()
+                action = increase_input
+                if action not in valid_actions:
+                    print("Invalid action. Please choose from the list.")
+            print('\n')
+
             if increase_input == "restore":
                 player['HP'] = player['Max_HP']
                 player['Energy'] = player['Max_Energy']
@@ -226,4 +235,4 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         else:
             print("Invalid action.")
 
-        return enemy_hp, edmg, bleed, False, spawn_skeleton
+        return enemy_hp, edmg, bleed, False, spawn_necro

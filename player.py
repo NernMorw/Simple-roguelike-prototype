@@ -11,5 +11,6 @@ player = {
     "Heal": 10,
     "SPoint": 0,
     "SCost": 10,
-    "Inventory": { }
+    "Inventory": { },
+    "Last_Enemy": "Goblin"
 }
