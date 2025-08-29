@@ -27,12 +27,14 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         fire_arrow_damg = random.randint(15, 15 * player['Level'])
         heal_magic_heal = random.randint(10, 10 * player['Level'])
 
-        valid_actions = ["attack", "strong attack", "heal", "parry", "defence", "magic", "rest", "run", "inventory", "skill", "use skill points"]
+        valid_actions = ["return", "attack", "strong attack", "heal", "parry", "defence", "magic", "rest", "run", "inventory", "skill", "use skill points"]
         action = ""
         while action not in valid_actions:
-            action = input("\n[Attack / Strong Attack / Heal / Parry / Defence / Magic / Rest / Run / Inventory / use skill points (skill)]: ").lower()
+            action = input("\n[Return / Attack / Strong Attack / Heal / Parry / Defence / Magic / Rest / Run / Inventory / use skill points (skill)]: ").lower()
             if action not in valid_actions:
                 print("Invalid action. Please choose from the list.")
+            elif magic_action == "return"
+                actions()
         print('\n')
 
         if action == "attack":
@@ -84,7 +86,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                 print(f"You have recovered {rest} energy!")
             else:
                 print("Invalid action.")
-            if player['Energy'] = player['Max_Energy']:
+            if player['Energy'] == player['Max_Energy']:
                 print("You have max energy!")
         elif action == "strong" or action == "strong attack":
             strong_attack_cost = 2
@@ -103,12 +105,14 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             print(f"Heal magic, cost: {heal_magic_cost} energy.")
             print()
                 
-            valid_magic_actions = ["fire arrow", "necromancy", "heal magic"]
+            valid_magic_actions = ["fire arrow", "necromancy", "heal magic", "return"]
             magic_action = 1
             while magic_action not in valid_magic_actions:
-                magic_action = input("").lower()
+                magic_action = input("\n[Return / Fire arrow / Necromancy / Heal magic]: ").lower()
                 if magic_action not in valid_magic_actions:
                     print("Invalid magic action. Please choose from the list.")
+                elif magic_action == "return"
+                    actions()
             print('\n')
 
             if magic_action == "fire arrow":
@@ -188,23 +192,37 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             increase_eng = 1
             increase_atk = 1
             increase_heal = 1
+            increase_necro = 10
+            increase_fire_arrow = 10
+            increase_heal_magic = 10
+            increase_magic = 5
             heal_point_cost = 10
             
+
+            print(f"You have: {player['SPoint']}")
+            print()
             print(f"Increase cost = {player['SCost']}.")
-            print(f"Print 'hp' for increase your max HP by {increase_hp}.")
-            print(f"Print 'en' to increase your max energy by {increase_eng}.")
-            print(f"Print 'atk' to increase your attack power by {increase_atk}.")
-            print(f"Print 'heal' to increase your heal power by {increase_heal}.")
-            print(f"Print 'restore' to restore your hp and energy for {heal_point_cost} skill points.")
+            print(f"Type 'hp' for increase your max HP by {increase_hp}.")
+            print(f"Type 'en' to increase your max energy by {increase_eng}.")
+            print(f"Type 'atk' to increase your attack power by {increase_atk}.")
+            print(f"Type 'heal' to increase your heal power by {increase_heal}.")
+            print(f"Type 'magic' to increase the effectiveness of magic by {increase_necro}%.")
+            print(f"Type 'farrow' to increase the effectiveness of fire arrow by {increase_fire_arrow}%.")
+            print(f"Type 'necro' to increase the effectiveness of necromancy by {increase_necro}%.")
+            print(f"Type 'mheal' to increase the effectiveness of heal magic by {increase_heal_magic}%.")
+            print()
+            print(f"Type 'restore' to restore your hp and energy for {heal_point_cost} skill points.")
 
             increase_input = input().lower()
-            valid_actions = ["hp", "en", "atk", "heal", "restore"]
+            valid_actions = ["return", "hp", "en", "energy", "atk", "attack", "heal", "restore", "magic", "farrow", "fire arrow", "necromancy", "necro", "mheal", "magic heal"]
             action = increase_input
             while action not in valid_actions:
-                increase_input = input().lower()
+                increase_input = input("\n[Return / HP / EN / ATK / Heal / Magic / FArrow / Necro / MHeal]: ").lower()
                 action = increase_input
                 if action not in valid_actions:
                     print("Invalid action. Please choose from the list.")
+                elif magic_action == "return"
+                    actions()
             print('\n')
 
             if increase_input == "restore":
@@ -218,12 +236,12 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                     player['SPoint'] -= player['SCost']
                     player['SCost'] += 1
                     print("You have successfully increase your max HP.")
-                elif increase_input == "en":
+                elif increase_input == "en" or increase_input == "energy":
                     player['Max_Energy'] += increase_eng
                     player['SPoint'] -= player['SCost']
                     player['SCost'] += 1
                     print("You have successfully increase your max energy.")
-                elif increase_input == "atk":
+                elif increase_input == "atk" or increase_input == "attack":
                     player['ATK'] += increase_atk
                     player['SPoint'] -= player['SCost']
                     player['SCost'] += 1

@@ -143,4 +143,3 @@ def start_combat():
             necro_spawned = False
             
         input()
-start_combat()
