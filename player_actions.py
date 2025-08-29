@@ -33,7 +33,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             action = input("\n[Return / Attack / Strong Attack / Heal / Parry / Defence / Magic / Rest / Run / Inventory / use skill points (skill)]: ").lower()
             if action not in valid_actions:
                 print("Invalid action. Please choose from the list.")
-            elif magic_action == "return"
+            elif magic_action == "return":
                 actions()
         print('\n')
 
@@ -111,7 +111,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                 magic_action = input("\n[Return / Fire arrow / Necromancy / Heal magic]: ").lower()
                 if magic_action not in valid_magic_actions:
                     print("Invalid magic action. Please choose from the list.")
-                elif magic_action == "return"
+                elif magic_action == "return":
                     actions()
             print('\n')
 
@@ -221,7 +221,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                 action = increase_input
                 if action not in valid_actions:
                     print("Invalid action. Please choose from the list.")
-                elif magic_action == "return"
+                elif magic_action == "return":
                     actions()
             print('\n')
 
