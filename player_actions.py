@@ -24,8 +24,8 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         rest = 1
 
         spawn_necro = False
-        fire_arrow_damg = random.randint(15, 15 * player['Level'])
-        heal_magic_heal = random.randint(10, 10 * player['Level'])
+        fire_arrow_damg = 15 * player['IMagic'] * player['IFArrow']
+        heal_magic_heal = 10 * player['IMagic'] * player['IMHeal']
 
         valid_actions = ["return", "attack", "strong attack", "heal", "parry", "defence", "magic", "rest", "run", "inventory", "skill", "use skill points"]
         action = ""
@@ -251,11 +251,30 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                     player['SPoint'] -= player['SCost']
                     player['SCost'] += 1
                     print("You have successfully increase your heal power.")
+                    
+                elif increase_input == "magic":
+                    player['IMagic'] += increase_magic
+                    print("You have successfully increase your magic power.")
+                elif increase_input == "necro" or increase_input == "necromancy":
+                    player['SCost'] += 1
+                    player['INecro'] += increase_necro
+                    print("You have successfully increase your necromancy power.")
+                elif increase_input == "farrow" or increase_input == "fire arrow":
+                    player['SCost'] += 1
+                    player['IFArrow'] += increase_fire_arrow
+                    print("You have successfully increase your fire arrow power.")
+                elif increase_input == "mheal" or increase_input == "magic heal":
+                    player['SCost'] += 1
+                    player['IMHeal'] += increase_heal_magic
+                    print("You have successfully increase your heal magic power.")
                 else:
                     print("Invalid action.")
+                    actions()
             else:
                 print("Not enough SPoints")
+                actions()
         else:
             print("Invalid action.")
+            actions()
 
         return enemy_hp, edmg, bleed, False, spawn_necro

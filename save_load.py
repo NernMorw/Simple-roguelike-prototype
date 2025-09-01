@@ -1,8 +1,9 @@
 import json
 from player import player
 
-SAVE_FILE = 'savegame.json'
 def save_game():
+    SAVE_FILE_INPUT = input("Save navne: ")
+    SAVE_FILE = f"{SAVE_FILE_INPUT}.json"
     try:
         with open(SAVE_FILE, 'w') as f:
             json.dump(player, f, indent=4)
