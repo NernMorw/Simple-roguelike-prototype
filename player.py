@@ -11,10 +11,10 @@ player = {
     "Heal": 10,
     "SPoint": 0,
     "SCost": 10,
-    "IMagic": 1,
-    "INecro": 1,
-    "IFArrow": 1,
-    "IMHeal": 1,
+    "IMagic": 0,
+    "INecro": 0,
+    "IFArrow": 0,
+    "IMHeal": 0,
     "Inventory": { },
     "Last_Enemy": "Goblin"
 }

@@ -14,6 +14,7 @@ def start_combat():
     chosen_enemy_name = random.choice(enemy_names)
     current_enemy = enemy_types[chosen_enemy_name]
     necromancy_name = (f"Zoombe {player['Last_Enemy']}")
+    necromancy_power = 1 + player['IMagic'] * player['INecro'] / 10
 
     level_diff = player['Level'] - current_enemy['Level']
     enemy_level_up = 1.1 ** level_diff
@@ -54,8 +55,8 @@ def start_combat():
         bdmg = random.randint(1, 5)
 
         if spawn_necro and not necro_spawned:
-            necro_hp = round(enemy_types[player['Last_Enemy']]['Max_HP'] * 0.8 * player['IMagic'] * player['INecro'])
-            necro_atk = round(enemy_types[player['Last_Enemy']]['ATK'] * 0.4 * player['IMagic'] * player['INecro'])
+            necro_hp = round(enemy_types[player['Last_Enemy']]['Max_HP'] * 0.8 * necromancy_power)
+            necro_atk = round(enemy_types[player['Last_Enemy']]['ATK'] * 0.4 * necromancy_power)
             necro_level = player["Level"]
             can_necromancy = False
             necro_spawned = True

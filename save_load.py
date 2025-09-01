@@ -2,6 +2,7 @@ import json
 from player import player
 
 def save_game():
+    print()
     SAVE_FILE_INPUT = input("Save navne: ")
     SAVE_FILE = f"{SAVE_FILE_INPUT}.json"
     try:

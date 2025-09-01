@@ -27,13 +27,13 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         fire_arrow_damg = 15 * player['IMagic'] * player['IFArrow']
         heal_magic_heal = 10 * player['IMagic'] * player['IMHeal']
 
-        valid_actions = ["return", "attack", "strong attack", "heal", "parry", "defence", "magic", "rest", "run", "inventory", "skill", "use skill points"]
+        valid_actions = ["return", "attack", "strong attack", "heal", "parry", "defence", "magic", "rest", "run", "inventory", "skill", "use skill points", ""]
         action = ""
         while action not in valid_actions:
             action = input("\n[Return / Attack / Strong Attack / Heal / Parry / Defence / Magic / Rest / Run / Inventory / use skill points (skill)]: ").lower()
             if action not in valid_actions:
                 print("Invalid action. Please choose from the list.")
-            elif magic_action == "return":
+            elif action == "return":
                 actions()
         print('\n')
 
@@ -106,7 +106,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             print()
                 
             valid_magic_actions = ["fire arrow", "necromancy", "heal magic", "return"]
-            magic_action = 1
+            magic_action = ""
             while magic_action not in valid_magic_actions:
                 magic_action = input("\n[Return / Fire arrow / Necromancy / Heal magic]: ").lower()
                 if magic_action not in valid_magic_actions:
@@ -213,7 +213,6 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             print()
             print(f"Type 'restore' to restore your hp and energy for {heal_point_cost} skill points.")
 
-            increase_input = input().lower()
             valid_actions = ["return", "hp", "en", "energy", "atk", "attack", "heal", "restore", "magic", "farrow", "fire arrow", "necromancy", "necro", "mheal", "magic heal"]
             action = increase_input
             while action not in valid_actions:
@@ -221,7 +220,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                 action = increase_input
                 if action not in valid_actions:
                     print("Invalid action. Please choose from the list.")
-                elif magic_action == "return":
+                elif action == "return":
                     actions()
             print('\n')
 
@@ -251,7 +250,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                     player['SPoint'] -= player['SCost']
                     player['SCost'] += 1
                     print("You have successfully increase your heal power.")
-                    
+
                 elif increase_input == "magic":
                     player['IMagic'] += increase_magic
                     print("You have successfully increase your magic power.")
