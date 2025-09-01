@@ -24,10 +24,10 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         rest = 1
 
         spawn_necro = False
-        fire_arrow_damg = 15 * player['IMagic'] * player['IFArrow']
-        heal_magic_heal = 10 * player['IMagic'] * player['IMHeal']
+        fire_arrow_damg = 15 * (1 + player['IMagic'] * player['IFArrow'])
+        heal_magic_heal = 10 * (1 +player['IMagic'] * player['IMHeal'])
 
-        valid_actions = ["return", "attack", "strong attack", "heal", "parry", "defence", "magic", "rest", "run", "inventory", "skill", "use skill points", ""]
+        valid_actions = ["return", "attack", "strong attack", "strong", "heal", "parry", "defence", "magic", "rest", "run", "inventory", "skill", "use skill points"]
         action = ""
         while action not in valid_actions:
             action = input("\n[Return / Attack / Strong Attack / Heal / Parry / Defence / Magic / Rest / Run / Inventory / use skill points (skill)]: ").lower()
@@ -42,7 +42,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             enemy_hp -= dmg
             print(f"\n\nYou deal {dmg} damage.")
         elif action == "heal":
-            healed_amount = random.randint(2, player['Heal'])
+            healed_amount = random.randint(round(player['Heal'] * 0.3), player['Heal'])
             if player['Energy'] >= heal_cost:
                 if bleed > 0:
                     bleed -= 1
@@ -89,9 +89,9 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             if player['Energy'] == player['Max_Energy']:
                 print("You have max energy!")
         elif action == "strong" or action == "strong attack":
-            strong_attack_cost = 2
+            strong_attack_cost = 1
             if player['Energy'] >= strong_attack_cost:
-                dmg = 2 * (random.randint(1, player["ATK"]))
+                dmg = 2 * (random.randint(round(player['ATK'] * 0.5), player["ATK"]))
                 enemy_hp -= dmg
                 player['Energy'] -= strong_attack_cost
                 print(f"\n\nYou deal {dmg} damage.")
@@ -145,6 +145,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         elif action == "inventory":
             if not player["Inventory"]:
                 print("Your inventory is empty.")
+                actions()
             else:
                 print("\n--- Inventory ---")
                 for item_key, item_details in player["Inventory"].items():
@@ -185,6 +186,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                                 break
                         if not item_found:
                             print("Invalid item name.")
+                            actions()
                     else:
                         print("You have decided not to use the item.")
         elif action == "use skill points" or action == "skill":
