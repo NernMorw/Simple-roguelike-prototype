@@ -25,6 +25,38 @@ if not game_loaded:
             player_name_set = True
         else:
             print("\nPlease enter a valid name.")
+    print("\nChose your class")
+    print("Tank -        ++HP, +ATK")
+    print("Attacker -    +++ATK")
+    print("Mage -        ++Magic, +Energy")
+    print("Necromancer - +Magic, ++Necromance")
+    print("Adventurer -  +++SPoints")
+    
+    valid_actions = ["tank", "attacker", "mage", "necro", "necromancer", "adventurer", "adven"]
+    caction = 0
+    while caction not in valid_actions:
+        print("")
+        caction = input("Chose your class: ").lower()
+        if caction not in valid_actions:
+            print("Invalid action. Please choose from the list.")
+    print("")
+
+    if caction == "tank":
+        player['HP'] += 70
+        player['SPoint'] -= 100
+        player['ATK'] += 3
+    elif caction == "attacker":
+        player['SPoint'] -= 100
+        player['ATK'] += 10
+    elif caction == "mage":
+        player['SPoint'] -= 100
+        player['IMagic'] += 3.5
+        player['Energy'] += 3
+    elif caction == "necromancer" or caction == "necro":
+        player['SPoint'] -= 100
+        player['IMagic'] += 1.5
+        player['INecro'] += 7  
+    print("You succesfull choise a class!")
 
 while player["HP"] > 0:
     while player['Need_EXP'] <= player['EXP']:
@@ -47,7 +79,7 @@ while player["HP"] > 0:
     if player['HP'] > player['Max_HP']:
         player['HP'] = player['Max_HP']
 
-    print("\nPress Enter to face your next challenge, or type 'save' / 'load'.")
+    print("Press Enter to face your next challenge, or type 'save' / 'load'")
     user_action = input().lower()
 
     if user_action == "save":
