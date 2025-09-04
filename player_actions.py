@@ -35,11 +35,11 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             if action not in valid_actions:
                 print("Invalid action. Please choose from the list.")
             elif action == "return":
-                actions()
+                return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
         print('\n')
 
         if action == "attack":
-            dmg = random.randint(round(player['ATK'] * 2), player["ATK"])
+            dmg = random.randint(round(player['ATK'] * 0.5), player["ATK"])
             enemy_hp -= dmg
             print(f"\n\nYou deal {dmg} damage.")
         elif action == "heal":
@@ -113,7 +113,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                 if magic_action not in valid_magic_actions:
                     print("Invalid magic action. Please choose from the list.")
                 elif magic_action == "return":
-                    actions()
+                    return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
             print('\n')
 
             if magic_action == "fire arrow":
@@ -146,7 +146,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         elif action == "inventory":
             if not player["Inventory"]:
                 print("Your inventory is empty.")
-                actions()
+                return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
             else:
                 print("\n--- Inventory ---")
                 for item_key, item_details in player["Inventory"].items():
@@ -187,15 +187,15 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                                 break
                         if not item_found:
                             print("Invalid item name.")
-                            actions()
+                            return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
                     else:
                         print("You have decided not to use the item.")
         elif action == "use skill points" or action == "skill":
             print("")
             player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
-            actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
+            return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
         else:
             print("Invalid action.")
-            actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
+            return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
 
         return enemy_hp, edmg, bleed, False, spawn_necro

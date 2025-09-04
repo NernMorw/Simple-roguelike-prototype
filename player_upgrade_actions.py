@@ -41,8 +41,8 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         print(f"Type 'farrow' to increase the effectiveness of fire arrow by {round(increasing_farrow)}%.")
         print(f"Type 'necro' to increase the effectiveness of necromancy by {round(increasing_necro)}%.")
         print(f"Type 'mheal' to increase the effectiveness of heal magic by {round(increasing_mheal)}%.")
-        print()
         print(f"Type 'restore' to restore your hp and energy for {heal_point_cost} skill points.")
+        print()
         print(f"Type 'return' to return.")
 
         valid_actions = ["return", "hp", "en", "energy", "atk", "attack", "heal", "restore", "magic", "farrow", "fire arrow", "necromancy", "necro", "mheal", "magic heal"]
