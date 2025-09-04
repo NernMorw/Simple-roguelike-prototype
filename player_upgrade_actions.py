@@ -15,20 +15,34 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         heal_point_cost = 10
         increase_cost = 10
 
+        def calc_increase_percent(old_value, new_value):
+            if old_value == 0:
+                return float('inf') if new_value > 0 else 0
+            return (new_value / old_value - 1) * 100
+
         old_magic = player['IMagic']
-        old_necro = player['INecro'] * player['IMagic']
-        old_farrow = player['IFArrow'] * player['IMagic']
-        old_mheal = player['IMHeal'] * player['IMagic']
+        old_necro = player['INecro']
+        old_farrow = player['IFArrow']
+        old_mheal = player['IMHeal']
 
         new_magic = old_magic + increase_magic
         new_necro = old_necro + increase_necro
         new_farrow = old_farrow + increase_fire_arrow
         new_mheal = old_mheal + increase_heal_magic
 
-        increasing_magic = increase_magic / new_magic * 100
-        increasing_necro = ((1 + new_necro * old_magic) /  (1 + old_necro * old_magic)) * 100
-        increasing_farrow = ((15 + new_farrow * old_magic) /  (15 + old_farrow * old_magic)) * 100
-        increasing_mheal = ((10 + new_mheal * old_magic) / (10 + old_mheal * old_magic)) * 100
+        old_necro_power = 1 + old_magic * old_necro / 10
+        new_necro_power = 1 + new_magic * new_necro / 10
+
+        old_farrow_power = 15 * (1 + old_magic * old_farrow)
+        new_farrow_power = 15 * (1 + new_magic * new_farrow)
+
+        old_mheal_power = 10 * (1 + old_magic * old_mheal)
+        new_mheal_power = 10 * (1 + new_magic * new_mheal)
+
+        increasing_magic = calc_increase_percent(old_magic, new_magic)
+        increasing_necro = calc_increase_percent(old_necro_power, new_necro_power)
+        increasing_farrow = calc_increase_percent(old_farrow_power, new_farrow_power)
+        increasing_mheal = calc_increase_percent(old_mheal_power, new_mheal_power)
 
         print(f"You have: {player['SPoint']}")
         print()
