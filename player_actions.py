@@ -39,7 +39,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         print('\n')
 
         if action == "attack":
-            dmg = random.randint(1, player["ATK"])
+            dmg = random.randint(round(player['ATK'] * 2), player["ATK"])
             enemy_hp -= dmg
             print(f"\n\nYou deal {dmg} damage.")
         elif action == "heal":
@@ -192,9 +192,10 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                         print("You have decided not to use the item.")
         elif action == "use skill points" or action == "skill":
             print("")
-            player_upgrade_actions()
+            player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
+            actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
         else:
             print("Invalid action.")
-            actions()
+            actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
 
         return enemy_hp, edmg, bleed, False, spawn_necro

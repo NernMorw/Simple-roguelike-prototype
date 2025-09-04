@@ -11,7 +11,7 @@ player = {
     "Heal": 10,
     "SPoint": 100,
     "SCost": 10,
-    "IMagic": 0,
+    "IMagic": 1,
     "INecro": 0,
     "IFArrow": 0,
     "IMHeal": 0,
