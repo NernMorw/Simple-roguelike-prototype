@@ -25,8 +25,8 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         rest = 1
 
         spawn_necro = False
-        fire_arrow_damg = 15 * (1 + player['IMagic'] * player['IFArrow'])
-        heal_magic_heal = 10 * (1 +player['IMagic'] * player['IMHeal'])
+        fire_arrow_damg = round(15 * (1 + player['IMagic'] * player['IFArrow']))
+        heal_magic_heal = round(10 * (1 +player['IMagic'] * player['IMHeal']))
 
         valid_actions = ["return", "attack", "strong attack", "strong", "heal", "parry", "defence", "magic", "rest", "run", "inventory", "skill", "use skill points", " "]
         action = ""
@@ -106,7 +106,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             print(f"Heal magic, cost: {heal_magic_cost} energy.")
             print()
                 
-            valid_magic_actions = ["fire arrow", "necromancy", "heal magic", "return"]
+            valid_magic_actions = ["fire arrow", "farrow", "necromancy", "necro", "heal magic", "mheal", "return"]
             magic_action = ""
             while magic_action not in valid_magic_actions:
                 magic_action = input("\n[Return / Fire arrow / Necromancy / Heal magic]: ").lower()
@@ -116,7 +116,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                     return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
             print('\n')
 
-            if magic_action == "fire arrow":
+            if magic_action == "fire arrow" or magic_action == "farrow":
                 if player['Energy'] >= fire_arrow_cost:
                     enemy_hp -= fire_arrow_damg
                     player['Energy'] -= fire_arrow_cost
@@ -124,7 +124,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                     print(f"Enemy took {fire_arrow_damg} damage!")
                 else:
                     print(f"Not enough energy for a fire arrow! (Requires {fire_arrow_cost} energy)")
-            elif magic_action == "necromancy":
+            elif magic_action == "necromancy" or magic_action == "necro":
                 if player['Energy'] >= necromancy_cost and can_necromancy:
                     player['Energy'] -= necromancy_cost
                     print("You have successfully cast necromancy!")
@@ -133,7 +133,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                     print("You can't cast necromancy!")
                 else:
                     print(f"Not enough energy for a necromancy! (Requires {necromancy_cost} energy)")
-            elif magic_action == "heal magic":
+            elif magic_action == "heal magic" or magic_action == "mheal":
                 if player['Energy'] >= heal_magic_cost:
                     player['Energy'] -= heal_magic_cost
                     player['HP'] += heal_magic_heal

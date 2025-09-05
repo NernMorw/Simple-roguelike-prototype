@@ -55,6 +55,7 @@ def start_combat():
         bdmg = random.randint(1, 5)
 
         if spawn_necro and not necro_spawned:
+            necromancy_power = 1 + player['IMagic'] * player['INecro'] / 10
             necro_hp = round(enemy_types[player['Last_Enemy']]['Max_HP'] * 0.8 * necromancy_power)
             necro_atk = round(enemy_types[player['Last_Enemy']]['ATK'] * 0.4 * necromancy_power)
             necro_level = player["Level"]

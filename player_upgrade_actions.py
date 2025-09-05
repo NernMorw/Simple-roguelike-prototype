@@ -31,18 +31,30 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         new_mheal = old_mheal + increase_heal_magic
 
         old_necro_power = 1 + old_magic * old_necro / 10
-        new_necro_power = 1 + new_magic * new_necro / 10
+        new_necro_power = 1 + old_magic * new_necro / 10
+        new_necrom_power = 1 + new_magic * old_necro / 10
+
 
         old_farrow_power = 15 * (1 + old_magic * old_farrow)
-        new_farrow_power = 15 * (1 + new_magic * new_farrow)
+        new_farrow_power = 15 * (1 + old_magic * new_farrow)
+        new_farrowm_power = 15 * (1 + new_magic * old_farrow)
+
 
         old_mheal_power = 10 * (1 + old_magic * old_mheal)
-        new_mheal_power = 10 * (1 + new_magic * new_mheal)
+        new_mheal_power = 10 * (1 + old_magic * new_mheal)
+        new_mhealm_power = 10 * (1 + new_magic * old_mheal)
+
 
         increasing_magic = calc_increase_percent(old_magic, new_magic)
         increasing_necro = calc_increase_percent(old_necro_power, new_necro_power)
         increasing_farrow = calc_increase_percent(old_farrow_power, new_farrow_power)
         increasing_mheal = calc_increase_percent(old_mheal_power, new_mheal_power)
+
+        increasing_farrowm = calc_increase_percent(old_farrow_power, new_farrowm_power)
+        increasing_necrom = calc_increase_percent(old_necro_power, new_necrom_power)
+        increasing_mhealm = calc_increase_percent(old_mheal_power, new_mhealm_power)
+
+
 
         print(f"You have: {player['SPoint']}")
         print()
@@ -51,7 +63,7 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         print(f"Type 'en' to increase your max energy by {increase_eng}.")
         print(f"Type 'atk' to increase your attack power by {increase_atk}.")
         print(f"Type 'heal' to increase your heal power by {increase_heal}.")
-        print(f"Type 'magic' to increase the effectiveness of magic by {round(increasing_magic)}%.")
+        print(f"Type 'magic' to increase the effectiveness of magic by {round(increasing_magic)}% (farrow {round(increasing_farrowm)}%, necro {round(increasing_necrom)}%, mheal {round(increasing_mhealm)}%).")
         print(f"Type 'farrow' to increase the effectiveness of fire arrow by {round(increasing_farrow)}%.")
         print(f"Type 'necro' to increase the effectiveness of necromancy by {round(increasing_necro)}%.")
         print(f"Type 'mheal' to increase the effectiveness of heal magic by {round(increasing_mheal)}%.")
