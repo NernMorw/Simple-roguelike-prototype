@@ -13,7 +13,7 @@ def start_combat():
     enemy_names = list(enemy_types.keys())
     chosen_enemy_name = random.choice(enemy_names)
     current_enemy = enemy_types[chosen_enemy_name]
-    necromancy_name = (f"Zoombe {player['Last_Enemy']}")
+    necromancy_name = (f"Zombie {player['Last_Enemy']}")
     necromancy_power = 1 + player['IMagic'] * player['INecro'] / 10
 
     level_diff = player['Level'] - current_enemy['Level']
@@ -96,7 +96,7 @@ def start_combat():
             player['HP'] = player['Max_HP']
 
         if necro_spawned:
-            ally_name = "necro"
+            ally_name = necromancy_name
         else:
             ally_name = player["Name"]
 

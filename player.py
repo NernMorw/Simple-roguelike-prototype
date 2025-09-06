@@ -10,6 +10,7 @@ player = {
     "ATK": 10,
     "Heal": 10,
     "SPoint": 100,
+    "SPoint_Add": 10,
     "SCost": 10,
     "IMagic": 1,
     "INecro": 0,

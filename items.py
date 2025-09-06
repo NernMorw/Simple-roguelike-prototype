@@ -1,7 +1,7 @@
 item = {
     "Heal_potion": {
         "Name": "Heal potion",
-        "Heal": 15,
+        "Heal": 40,
         "Count": 0
     },
     "Bomb": {
@@ -11,7 +11,7 @@ item = {
     },
     "Energy_potion": {
         "Name": "Energy potion",
-        "EHeal": 3,
+        "EHeal": 6,
         "Count": 0
     },
     "EXP_potion": {
@@ -19,9 +19,9 @@ item = {
         "EXP_add": 50,
         "Count": 0
     },
-    "UPoint_potion": {
-        "Name": "Upgrade point potion",
-        "S_add": 1,
-        "Count": 0
+    "SPoint_potion": {
+        "Name": "SPoints potion",
+        "S_add": 10,
+        "Count": 100
     }
 }

@@ -68,7 +68,7 @@ while player["HP"] > 0:
             player['Max_Energy'] += 1
             player['ATK'] += 1
             player['Heal'] += 1
-            player['SPoint'] += 20
+            player['SPoint'] += player['SPoint_Add'] + player['SPoint_Add'] * player['Level']
             player['Energy'] = player['Max_Energy']
             player['HP'] = player['Max_HP']
             print('---Level increased!---')

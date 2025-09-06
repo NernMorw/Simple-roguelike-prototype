@@ -17,6 +17,8 @@ def add_item_to_inventory(player_data, item_key, items_data):
         print(f"Item '{item_key}' does not exist.")
 
 def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
+        def return_actions():
+            return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
         heal_cost = 1
         fire_arrow_cost = 2
         necromancy_cost = 4
@@ -165,16 +167,16 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                                     if "Heal" in item_details:
                                         player['HP'] += item_details['Heal']
                                         print(f"You used {item_details['Name']} and heal {item_details['Heal']} HP.")
-                                    elif "EHeal" in item_details:
+                                    if "EHeal" in item_details:
                                         player['Energy'] += item_details['EHeal']
                                         print(f"You used {item_details['Name']} and restore {item_details['EHeal']} energy.")
-                                    elif "Damage" in item_details:
+                                    if "Damage" in item_details:
                                         enemy_hp -= item_details['Damage']
                                         print(f"You used {item_details['Name']} and deal {item_details['Damage']} damage.")
-                                    elif "S_add" in item_details:
+                                    if "S_add" in item_details:
                                         player['SPoint'] += item_details['S_add']
                                         print(f"You used {item_details['Name']} and gained {item_details['S_add']} upgrade point.")
-                                    elif "EXP_add" in item_details:
+                                    if "EXP_add" in item_details:
                                         player['EXP'] += item_details['EXP_add']
                                         print(f"You used {item_details['Name']} and gained {item_details['EXP_add']} EXP point.")
 
@@ -182,20 +184,22 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                                     if item_details['Count'] == 0:
                                         del player["Inventory"][item_key]
                                         print(f"\n{item_details['Name']} has been used up and has been removed from inventory.")
+                                    return_actions()
                                 else:
                                     print(f"You don't have {item_details['Name']}.")
-                                break
+                                print()
+                                return_actions()
                         if not item_found:
                             print("Invalid item name.")
-                            return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
+                            return_actions()
                     else:
                         print("You have decided not to use the item.")
         elif action == "use skill points" or action == "skill":
             print("")
             player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
-            return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
+            return_actions()
         else:
             print("Invalid action.")
-            return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
+            return_actions()
 
         return enemy_hp, edmg, bleed, False, spawn_necro

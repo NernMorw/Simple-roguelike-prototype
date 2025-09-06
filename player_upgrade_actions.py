@@ -13,7 +13,6 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         increase_heal_magic = 1
         increase_magic = 0.5
         heal_point_cost = 10
-        increase_cost = 10
 
         def calc_increase_percent(old_value, new_value):
             if old_value == 0:
