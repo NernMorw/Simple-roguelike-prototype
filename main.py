@@ -1,12 +1,144 @@
 # Proto-Game #3
 # Version: prototype-IDK
 
-from events import random_event
+import random
 from player import player
+from events import random_event
 from save_load import save_game, load_game
 
-print("\n=== Welcome to the Roguelike Prototype ===\n")
+border = 9
+a = round(border * 0.5)
 
+if player['Location_x'] == 0 and player['Location_y'] == 0:
+    player['X'] = a
+    player['Y'] = a
+def clear():
+    print("\033c", end="")
+
+def basic_view():
+    board = []
+    for _ in range(border):
+        row = ["*" for _ in range(border)]
+        board.append(row)
+    return board
+
+def visual(board):
+    for row in board:
+        print("".join(row))
+
+
+events = []
+
+def event_spawn():
+    global events
+    events = []
+    
+    spawn_probability = 0.06
+
+    for y in range(border):
+        for x in range(border):
+            if x == player['X'] and y == player['Y']:
+                continue
+
+            seed_value = (player['Location_x'] * 1000 + x) * 1000 + (player['Location_y'] * 1000 + y)
+            random.seed(seed_value)
+            
+            if random.random() < spawn_probability:
+                events.append((x, y))
+
+
+def move(move_input):
+    if move_input == "w":
+        player['Y'] -= 1
+    elif move_input == "s":
+        player['Y'] += 1
+    if move_input == "a":
+        player['X'] -= 1
+    elif move_input == "d":
+        player['X'] += 1
+
+        
+    if player['X'] >= border:
+        player['X'] = 0
+        player['Location_x'] += 1
+    if player['X'] < 0:
+        player['X'] = border - 1
+        player['Location_x'] -= 1
+    if player['Y'] >= border:
+        player['Y'] = 0
+        player['Location_y'] += 1
+    if player['Y'] < 0:
+        player['Y'] = border - 1
+        player['Location_y'] -= 1
+
+    global events
+    defeated = False
+    new_events_list = []
+    
+    for ex, ey in events:
+        if player['X'] == ex and player['Y'] == ey:
+            random_event()
+            defeated = True
+        else:
+            new_events_list.append((ex, ey))
+    events = new_events_list
+
+    
+def location():
+    if player['Old_Location_x'] != player['Location_x'] or player['Old_Location_y'] != player['Location_y']:
+        print("New location!")
+        player['Old_Location_x'] = player['Location_x']
+        player['Old_Location_y'] = player['Location_y']
+        
+        event_spawn()
+
+def main_game_loop():
+    move_input = 1
+    while player['HP'] > 0:
+        while player['Need_EXP'] <= player['EXP']:
+            if player['Need_EXP'] <= player['EXP']:
+                player['EXP'] -= player['Need_EXP']
+                player['Level'] += 1
+                player['Need_EXP'] += 50
+                player['Max_HP'] += 10
+                player['Max_Energy'] += 1
+                player['ATK'] += 1
+                player['Heal'] += 1
+                player['SPoint'] += player['SPoint_Add'] + player['SPoint_Add'] * player['Level']
+                player['Energy'] = player['Max_Energy']
+                player['HP'] = player['Max_HP']
+                print('---Level increased!---')
+        if player['HP'] > player['Max_HP']:
+            player['HP'] = player['Max_HP']
+
+        if player["HP"] <= 0:
+            print("\nYou have died. Game Over.")
+            print("If you want load save - type 'load'")
+            user_action = input().lower()
+            if user_action == "load":
+                load_game()
+                print("Game loaded!")
+                continue
+            else:
+                break
+        clear()
+        board = basic_view()
+        move(move_input)
+        location()
+
+        for ex, ey in events:
+            board[ey][ex] = "!"
+            
+        board[player['Y']][player['X']] = "@"
+        print(f"X: {player['Location_x']}, Y: {player['Location_y']}")
+        visual(board)
+        move_input = input("").lower()
+        if move_input == "save":
+            save_game()
+        elif move_input == "load":
+            load_game()
+
+clear()
 load_choice = input("Load previous game? (yes/no): ").lower()
 game_loaded = False
 if load_choice == 'yes':
@@ -15,6 +147,7 @@ if load_choice == 'yes':
         pass
 else:
     print("\nStarting a new game.")
+clear()
 
 if not game_loaded:
     player_name_set = False
@@ -25,6 +158,7 @@ if not game_loaded:
             player_name_set = True
         else:
             print("\nPlease enter a valid name.")
+    clear()
     print("\nChose your class")
     print("Tank -        ++HP, +ATK")
     print("Attacker -    +++ATK")
@@ -35,11 +169,11 @@ if not game_loaded:
     valid_actions = ["tank", "attacker", "mage", "necro", "necromancer", "adventurer", "adven"]
     caction = 0
     while caction not in valid_actions:
-        print("")
+        print()
         caction = input("Chose your class: ").lower()
         if caction not in valid_actions:
             print("Invalid action. Please choose from the list.")
-    print("")
+
 
     if caction == "tank":
         player['HP'] += 70
@@ -56,46 +190,5 @@ if not game_loaded:
         player['SPoint'] -= 100
         player['IMagic'] += 1.5
         player['INecro'] += 7  
-    print("You succesfull choise a class!")
-
-while player["HP"] > 0:
-    while player['Need_EXP'] <= player['EXP']:
-        if player['Need_EXP'] <= player['EXP']:
-            player['EXP'] -= player['Need_EXP']
-            player['Level'] += 1
-            player['Need_EXP'] += 50
-            player['Max_HP'] += 10
-            player['Max_Energy'] += 1
-            player['ATK'] += 1
-            player['Heal'] += 1
-            player['SPoint'] += player['SPoint_Add'] + player['SPoint_Add'] * player['Level']
-            player['Energy'] = player['Max_Energy']
-            player['HP'] = player['Max_HP']
-            print('---Level increased!---')
-        else:
-            break
-    print()
-        
-    if player['HP'] > player['Max_HP']:
-        player['HP'] = player['Max_HP']
-
-    print("Press Enter to face your next challenge, or type 'save' / 'load'")
-    user_action = input().lower()
-
-    if user_action == "save":
-        save_game()
-    elif user_action == "load":
-        load_game()
-    else:
-        random_event()
-
-    if player["HP"] <= 0:
-        print("\nYou have died. Game Over.")
-        print("If you want load save - type 'load'")
-        user_action = input().lower()
-        if user_action == "load":
-            load_game()
-            print("Game loaded!")
-            continue
-        else:
-            break
+clear()
+main_game_loop()

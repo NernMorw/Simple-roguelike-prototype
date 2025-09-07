@@ -17,5 +17,11 @@ player = {
     "IFArrow": 0,
     "IMHeal": 0,
     "Inventory": { },
-    "Last_Enemy": "Goblin"
+    "Last_Enemy": "Goblin",
+    "X": 0,
+    "Y": 0,
+    "Location_x": 0,
+    "Location_y": 0,
+    "Old_Location_x": 0,
+    "Old_Location_y": 0,
 }
