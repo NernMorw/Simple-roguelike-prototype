@@ -86,7 +86,7 @@ def move(move_input):
     
 def location():
     if player['Old_Location_x'] != player['Location_x'] or player['Old_Location_y'] != player['Location_y']:
-        print("New location!")
+        print("New location")
         player['Old_Location_x'] = player['Location_x']
         player['Old_Location_y'] = player['Location_y']
         
@@ -134,9 +134,12 @@ def main_game_loop():
         visual(board)
         move_input = input("").lower()
         if move_input == "save":
+            clear()
             save_game()
         elif move_input == "load":
+            clear()
             load_game()
+            event_spawn()
 
 clear()
 load_choice = input("Load previous game? (yes/no): ").lower()
@@ -145,6 +148,8 @@ if load_choice == 'yes':
     game_loaded = load_game()
     if not game_loaded:
         pass
+    else:
+        event_spawn()
 else:
     print("\nStarting a new game.")
 clear()
@@ -159,7 +164,7 @@ if not game_loaded:
         else:
             print("\nPlease enter a valid name.")
     clear()
-    print("\nChose your class")
+    print("Chose your class")
     print("Tank -        ++HP, +ATK")
     print("Attacker -    +++ATK")
     print("Mage -        ++Magic, +Energy")

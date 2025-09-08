@@ -101,8 +101,8 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             else:
                 print(f"Not enough energy for a strong attack! (Requires {strong_attack_cost} energy)")
         elif action == "magic":
-            
-            print("--- Magick types ---")
+            print("\033c", end="")
+            print("--- Magic types ---")
             print(f"Fire arrow, cost: {fire_arrow_cost} energy.")
             print(f"Necromancy, cost: {necromancy_cost} energy.")
             print(f"Heal magic, cost: {heal_magic_cost} energy.")
@@ -116,7 +116,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                     print("Invalid magic action. Please choose from the list.")
                 elif magic_action == "return":
                     return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
-            print('\n')
+            print("\033c", end="")
 
             if magic_action == "fire arrow" or magic_action == "farrow":
                 if player['Energy'] >= fire_arrow_cost:
@@ -156,6 +156,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                 print("---------------------")
                 
                 if player["Inventory"]:
+                    print("\033c", end="")
                     use_item_choice = input("Would you like to use the item? (name/no): ").lower()
                     print()
                     if use_item_choice != "no":

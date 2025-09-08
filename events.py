@@ -11,6 +11,7 @@ def random_event():
 
     if event_type == "combat":
         print("\nYou encounter a wild enemy!")
+        input()
         start_combat()
     elif event_type == "trap":
         dmg = random.randint(1, 15)
@@ -20,20 +21,25 @@ def random_event():
         print(f"\nA hidden trap! You lose {dmg} HP.")
         print(f"You lose {endmg} energy.")
         print(" Current HP: ", round(player['HP']))
+        input()
     elif event_type == "camp":
         print("\nYou visited the camp")
+        input()
         if player['HP'] < player['Max_HP']:
             heal = random.randint(5, player['Heal'])
             player['HP'] += heal
             player['Energy'] = player['Max_Energy']
             print("You restored: ", heal, "HP")
-            print("Your energy has been restored!")
+            print("Your energy has been fully restored!")
         else:
             print("You already have max HP")
             player['Energy'] = player['Max_Energy']
-            print("Your energy has been restored!")
+            print("Your energy has been fully restored!")
+        input()
     elif event_type == "loot":
         print("\nYou found a mysterious chest!")
         possible_items = list(item.keys())
         found_item_key = random.choice(possible_items)
         add_item_to_inventory(player, found_item_key, item)
+        input()
+    print("\033c", end="")
