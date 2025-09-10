@@ -14,7 +14,7 @@ def start_combat():
     chosen_enemy_name = random.choice(enemy_names)
     current_enemy = enemy_types[chosen_enemy_name]
     necromancy_name = (f"Zombie {player['Last_Enemy']}")
-    necromancy_power = 1 + player['IMagic'] * player['INecro'] / 10
+    necromancy_power = 1 + (player['IMagic'] * player['INecro']) / 10
     necro_number = 0
 
     level_diff = player['Level'] - current_enemy['Level']
@@ -71,6 +71,7 @@ def start_combat():
         print(f"\n-- {player['Name']} --")
         print("HP:       ", round(player['HP']), "/", player['Max_HP'])
         print("Energy:   ", player['Energy'], "/", player['Max_Energy'])
+        print("ATK:      ", player['ATK'])
         print("Level     ", player['Level'])
         print("EXP:      ", player['EXP'], "/", player['Need_EXP'])
         print("SPoints:  ", player['SPoint'])
@@ -83,7 +84,7 @@ def start_combat():
             
         print(f"\n-- {chosen_enemy_name} --")
         print("Enemy HP:  ", round(enemy_hp))
-        print("Enemy ATK: ", enemy_atk)
+        print("Enemy ATK: ", round(enemy_atk))
 
         enemy_hp, edmg, bleed, fled, spawn_necro = actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
 

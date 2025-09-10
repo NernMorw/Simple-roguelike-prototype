@@ -5,6 +5,7 @@ import random
 from player import player
 from events import random_event
 from save_load import save_game, load_game
+from player_upgrade_actions import player_upgrade_actions
 
 border = 9
 a = round(border * 0.5)
@@ -12,6 +13,7 @@ a = round(border * 0.5)
 if player['Location_x'] == 0 and player['Location_y'] == 0:
     player['X'] = a
     player['Y'] = a
+
 def clear():
     print("\033c", end="")
 
@@ -108,6 +110,7 @@ def main_game_loop():
                 player['Energy'] = player['Max_Energy']
                 player['HP'] = player['Max_HP']
                 print('---Level increased!---')
+
         if player['HP'] > player['Max_HP']:
             player['HP'] = player['Max_HP']
 
@@ -115,6 +118,7 @@ def main_game_loop():
             print("\nYou have died. Game Over.")
             print("If you want load save - type 'load'")
             user_action = input().lower()
+
             if user_action == "load":
                 load_game()
                 print("Game loaded!")
@@ -133,6 +137,7 @@ def main_game_loop():
         print(f"X: {player['Location_x']}, Y: {player['Location_y']}")
         visual(board)
         move_input = input("").lower()
+
         if move_input == "save":
             clear()
             save_game()
@@ -144,6 +149,7 @@ def main_game_loop():
 clear()
 load_choice = input("Load previous game? (yes/no): ").lower()
 game_loaded = False
+
 if load_choice == 'yes':
     game_loaded = load_game()
     if not game_loaded:
@@ -152,27 +158,31 @@ if load_choice == 'yes':
         event_spawn()
 else:
     print("\nStarting a new game.")
-clear()
 
 if not game_loaded:
+    clear()
     player_name_set = False
+
     while not player_name_set:
         name = input("What's your name? ").strip()
+        clear()
+
         if name:
             player['Name'] = name
             player_name_set = True
         else:
-            print("\nPlease enter a valid name.")
+            print("Please enter a valid name.")
     clear()
     print("Chose your class")
-    print("Tank -        ++HP, +ATK")
-    print("Attacker -    +++ATK")
-    print("Mage -        ++Magic, +Energy")
-    print("Necromancer - +Magic, ++Necromance")
+    print("Tank -        ++HP, +ATK, +Heal             | -Energy")
+    print("Attacker -    +++ATK, +Energy               | -HP")
+    print("Mage -        ++Magic, +Energy, +SPoints    | -ATK")
+    print("Necromancer - +Magic, ++Necromance, +MHeal  | -HP")
     print("Adventurer -  +++SPoints")
     
     valid_actions = ["tank", "attacker", "mage", "necro", "necromancer", "adventurer", "adven"]
     caction = 0
+    
     while caction not in valid_actions:
         print()
         caction = input("Chose your class: ").lower()
@@ -181,19 +191,37 @@ if not game_loaded:
 
 
     if caction == "tank":
-        player['HP'] += 70
-        player['SPoint'] -= 100
+        player['SPoint'] -= 90
+        player['HP'] += 60
         player['ATK'] += 3
+        player['Heal'] += 3
+        player['Max_Energy'] -= 3
     elif caction == "attacker":
-        player['SPoint'] -= 100
-        player['ATK'] += 10
+        player['SPoint'] -= 90
+        player['ATK'] += 9
+        player['Max_Energy'] += 3
+        player['Max_HP'] -= 30
     elif caction == "mage":
-        player['SPoint'] -= 100
-        player['IMagic'] += 3.5
+        player['SPoint'] -= 60
+        player['IMagic'] += 3
         player['Energy'] += 3
+        player['ATK'] -= 3
     elif caction == "necromancer" or caction == "necro":
-        player['SPoint'] -= 100
+        player['SPoint'] -= 90
         player['IMagic'] += 1.5
-        player['INecro'] += 7  
+        player['INecro'] += 6 
+        player['IMHeal'] += 3
+        player['HP'] -= 30
+    clear()
+
+    if player['SPoint'] > 0:
+        print(f"You have {player['SPoint']} SPoints.")
+        print("Do you want to youse your SPoints? (yes/no)")
+        yes_input = input("").lower()
+        if yes_input == "yes":
+            player_upgrade_actions(0,0,0,0,0)
+
+    player['Energy'] = player['Max_Energy']
+    player['HP'] = player['Max_HP']
 clear()
 main_game_loop()

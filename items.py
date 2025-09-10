@@ -7,7 +7,7 @@ item = {
     "Bomb": {
         "Name": "Bomb",
         "Damage": 20,
-        "Count": 0
+        "Count": 1
     },
     "Energy_potion": {
         "Name": "Energy potion",
