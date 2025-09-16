@@ -2,7 +2,7 @@ from player import player
 
 def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
     exit = False
-    while exit == False:
+    while not exit:
         print("\033c", end="")
         increase_hp = 10
         increase_eng = 1
@@ -68,7 +68,7 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         print(f"Type 'mheal' to increase the effectiveness of heal magic by {round(increasing_mheal)}%.")
         print(f"Type 'restore' to restore your hp and energy for {heal_point_cost} skill points.")
         print()
-        print(f"Type 'return' to return.")
+        print("Type 'return' to return.")
 
         valid_actions = ["return", "hp", "en", "energy", "atk", "attack", "heal", "restore", "magic", "farrow", "fire arrow", "necromancy", "necro", "mheal", "magic heal"]
         action = 0

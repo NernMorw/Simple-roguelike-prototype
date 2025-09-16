@@ -34,7 +34,7 @@ events = []
 def event_spawn():
     global events
     events = []
-    
+
     spawn_probability = 0.06
 
     for y in range(border):
@@ -44,7 +44,7 @@ def event_spawn():
 
             seed_value = (player['Location_x'] * 1000 + x) * 1000 + (player['Location_y'] * 1000 + y)
             random.seed(seed_value)
-            
+
             if random.random() < spawn_probability:
                 events.append((x, y))
 
@@ -59,7 +59,7 @@ def move(move_input):
     elif move_input == "d":
         player['X'] += 1
 
-        
+
     if player['X'] >= border:
         player['X'] = 0
         player['Location_x'] += 1
@@ -76,7 +76,7 @@ def move(move_input):
     global events
     defeated = False
     new_events_list = []
-    
+
     for ex, ey in events:
         if player['X'] == ex and player['Y'] == ey:
             random_event()
@@ -85,13 +85,13 @@ def move(move_input):
             new_events_list.append((ex, ey))
     events = new_events_list
 
-    
+
 def location():
     if player['Old_Location_x'] != player['Location_x'] or player['Old_Location_y'] != player['Location_y']:
         print("New location")
         player['Old_Location_x'] = player['Location_x']
         player['Old_Location_y'] = player['Location_y']
-        
+
         event_spawn()
 
 def main_game_loop():
@@ -132,7 +132,7 @@ def main_game_loop():
 
         for ex, ey in events:
             board[ey][ex] = "!"
-            
+
         board[player['Y']][player['X']] = "@"
         print(f"X: {player['Location_x']}, Y: {player['Location_y']}")
         visual(board)
@@ -179,10 +179,10 @@ if not game_loaded:
     print("Mage -        ++Magic, +Energy, +SPoints    | -ATK")
     print("Necromancer - +Magic, ++Necromance, +MHeal  | -HP")
     print("Adventurer -  +++SPoints")
-    
+
     valid_actions = ["tank", "attacker", "mage", "necro", "necromancer", "adventurer", "adven"]
     caction = 0
-    
+
     while caction not in valid_actions:
         print()
         caction = input("Chose your class: ").lower()
@@ -209,7 +209,7 @@ if not game_loaded:
     elif caction == "necromancer" or caction == "necro":
         player['SPoint'] -= 90
         player['IMagic'] += 1.5
-        player['INecro'] += 6 
+        player['INecro'] += 6
         player['IMHeal'] += 3
         player['HP'] -= 30
     clear()

@@ -5,8 +5,8 @@ from player_actions import add_item_to_inventory
 from items import item
 
 def random_event():
-    events = ["combat", "trap", "camp", "loot"] 
-    weights = [4, 2, 1, 10] 
+    events = ["combat", "trap", "camp", "loot"]
+    weights = [4, 2, 1, 1]
     event_type = random.choices(events, weights=weights, k=1)[0]
 
     if event_type == "combat":

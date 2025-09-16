@@ -13,13 +13,13 @@ def start_combat():
     enemy_names = list(enemy_types.keys())
     chosen_enemy_name = random.choice(enemy_names)
     current_enemy = enemy_types[chosen_enemy_name]
-    necromancy_name = (f"Zombie {player['Last_Enemy']}")
+    necromancy_name = f"Zombie {player['Last_Enemy']}"
     necromancy_power = 1 + (player['IMagic'] * player['INecro']) / 10
     necro_number = 0
 
     level_diff = player['Level'] - current_enemy['Level']
     enemy_level_up = 1.1 ** level_diff
-    necromancy_level_up = 1.3 ** player["Level"]
+    #necromancy_level_up = 1.3 ** player["Level"]
 
     if current_enemy['Level'] < player['Level']:
         current_enemy['Level'] = player['Level']
@@ -81,7 +81,7 @@ def start_combat():
             print(f"Level: {necro_level}")
             print(f"HP: {round(necro_hp)}")
             print(f"ATK: {round(necro_atk)}")
-            
+
         print(f"\n-- {chosen_enemy_name} --")
         print("Enemy HP:  ", round(enemy_hp))
         print("Enemy ATK: ", round(enemy_atk))
@@ -105,7 +105,7 @@ def start_combat():
             ally_name = player["Name"]
 
         if enemy_hp > 0:
-            if can_heal == True:
+            if can_heal:
                 if enemy_hp < current_enemy['Max_HP'] - 2 * current_enemy['Heal'] and not is_restored_hp:
                     enemy_hp += current_enemy['Heal']
                     print(f"{chosen_enemy_name} heal {current_enemy['Heal']} HP!")
@@ -137,7 +137,7 @@ def start_combat():
                 possible_items = list(item.keys())
                 dropped_item_key = random.choice(possible_items)
                 add_item_to_inventory(player, dropped_item_key, item)
-        
+
         if necro_spawned:
             necro_hp += damage_taken
         else:
@@ -147,5 +147,5 @@ def start_combat():
             can_necromancy = True
             spawn_necro = False
             necro_spawned = False
-            
+
         input()
