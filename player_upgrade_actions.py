@@ -17,7 +17,12 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         def calc_increase_percent(old_value, new_value):
             if old_value == 0:
                 return float('inf') if new_value > 0 else 0
-            return (new_value / old_value - 1) * 100
+            return round((new_value / old_value - 1) * 100)
+
+        def format_percent(value):
+            if value == float('inf'):
+                return 'INFINITY%'
+            return f"{value}%"
 
         old_magic = player['IMagic']
         old_necro = player['INecro']
@@ -29,19 +34,19 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         new_farrow = old_farrow + increase_fire_arrow
         new_mheal = old_mheal + increase_heal_magic
 
-        old_necro_power = 1 + old_magic * old_necro / 10
-        new_necro_power = 1 + old_magic * new_necro / 10
-        new_necrom_power = 1 + new_magic * old_necro / 10
+        old_necro_power = old_magic * old_necro / 10
+        new_necro_power = old_magic * new_necro / 10
+        new_necrom_power = new_magic * old_necro / 10
 
 
-        old_farrow_power = 15 * (1 + old_magic * old_farrow)
-        new_farrow_power = 15 * (1 + old_magic * new_farrow)
-        new_farrowm_power = 15 * (1 + new_magic * old_farrow)
+        old_farrow_power = 15 * (old_magic * old_farrow)
+        new_farrow_power = 15 * (old_magic * new_farrow)
+        new_farrowm_power = 15 * (new_magic * old_farrow)
 
 
-        old_mheal_power = 10 * (1 + old_magic * old_mheal)
-        new_mheal_power = 10 * (1 + old_magic * new_mheal)
-        new_mhealm_power = 10 * (1 + new_magic * old_mheal)
+        old_mheal_power = 10 * (old_magic * old_mheal)
+        new_mheal_power = 10 * (old_magic * new_mheal)
+        new_mhealm_power = 10 * (new_magic * old_mheal)
 
 
         increasing_magic = calc_increase_percent(old_magic, new_magic)
@@ -62,18 +67,18 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         print(f"Type 'en' to increase your max energy by {increase_eng}.")
         print(f"Type 'atk' to increase your attack power by {increase_atk}.")
         print(f"Type 'heal' to increase your heal power by {increase_heal}.")
-        print(f"Type 'magic' to increase the effectiveness of magic by {round(increasing_magic)}% (farrow {round(increasing_farrowm)}%, necro {round(increasing_necrom)}%, mheal {round(increasing_mhealm)}%).")
-        print(f"Type 'farrow' to increase the effectiveness of fire arrow by {round(increasing_farrow)}%.")
-        print(f"Type 'necro' to increase the effectiveness of necromancy by {round(increasing_necro)}%.")
-        print(f"Type 'mheal' to increase the effectiveness of heal magic by {round(increasing_mheal)}%.")
+        print(f"Type 'magic' to increase the effectiveness of magic by {format_percent(increasing_magic)} (farrow {format_percent(increasing_farrowm)}, necro {format_percent(increasing_necrom)}, mheal {format_percent(increasing_mhealm)}).")
+        print(f"Type 'farrow' to increase the effectiveness of fire arrow by {format_percent(increasing_farrow)}.")
+        print(f"Type 'necro' to increase the effectiveness of necromancy by {format_percent(increasing_necro)}.")
+        print(f"Type 'mheal' to increase the effectiveness of heal magic by {format_percent(increasing_mheal)}.")
         print(f"Type 'restore' to restore your hp and energy for {heal_point_cost} skill points.")
         print()
         print("Type 'return' to return.")
 
-        valid_actions = ["return", "hp", "en", "energy", "atk", "attack", "heal", "restore", "magic", "farrow", "fire arrow", "necromancy", "necro", "mheal", "magic heal"]
+        valid_actions = ["hp", "en", "energy", "atk", "attack", "heal", "restore", "magic", "farrow", "fire arrow", "necromancy", "necro", "mheal", "magic heal"]
         action = 0
         while action not in valid_actions:
-            increase_input = input("\n[Return / HP / EN / ATK / Heal / Magic / FArrow / Necro / MHeal]: ").lower()
+            increase_input = input("\n[Return / HP / EN / ATK / Heal / Magic / FArrow / Necro / MHeal / Restore]: ").lower()
             action = increase_input
             if action not in valid_actions:
                 print("Invalid action. Please choose from the list.")
@@ -126,4 +131,4 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         else:
             print("Not enough SPoints")
     print("\033c", end="")
-    return
+    return enemy_hp, edmg, bleed, enemy_atk, can_necromancy

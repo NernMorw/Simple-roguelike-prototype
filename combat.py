@@ -58,7 +58,7 @@ def start_combat():
         if spawn_necro and not necro_spawned:
             necro_number += 1
             renecro = 1 * necro_number
-            necromancy_power = 1 + player['IMagic'] * player['INecro'] / 10
+            necromancy_power = player['IMagic'] * player['INecro'] / 10
             necro_hp = round(enemy_types[player['Last_Enemy']]['Max_HP'] * 0.8 * necromancy_power / renecro)
             necro_atk = round(enemy_types[player['Last_Enemy']]['ATK'] * 0.4 * necromancy_power / renecro)
             necro_level = player["Level"]

@@ -31,8 +31,8 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
     rest = 1
 
     spawn_necro = False
-    fire_arrow_damg = round(15 * (1 + player['IMagic'] * player['IFArrow']))
-    heal_magic_heal = round(10 * (1 + player['IMagic'] * player['IMHeal']))
+    fire_arrow_damg = round(15 * (player['IMagic'] * player['IFArrow']))
+    heal_magic_heal = round(10 * (player['IMagic'] * player['IMHeal']))
 
     valid_actions = ["return", "attack", "strong attack", "strong", "heal", "parry", "defence", "magic", "rest", "run", "inventory", "skill", "use skill points", " "]
     action = ""

@@ -74,13 +74,11 @@ def move(move_input):
         player['Location_y'] -= 1
 
     global events
-    defeated = False
     new_events_list = []
 
     for ex, ey in events:
         if player['X'] == ex and player['Y'] == ey:
             random_event()
-            defeated = True
         else:
             new_events_list.append((ex, ey))
     events = new_events_list
