@@ -62,6 +62,8 @@ def start_combat():
         else:
             edmg /= player['Resistance']
 
+        edmg = round(edmg)
+
         if spawn_necro and not necro_spawned:
             necro_number += 1
             renecro = 1 * necro_number

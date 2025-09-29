@@ -135,6 +135,7 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                 print("You have successfully increase your fire arrow power.")
             elif increase_input == "fbolt" or increase_input == "frost bolt":
                 player['IFBolt'] += increase_frost_bolt
+                player['SPoint'] -= player['SCost']
                 print("You have successfully increase your frost bolt power.")
             elif increase_input == "mheal" or increase_input == "magic heal":
                 player['IMHeal'] += increase_heal_magic
@@ -142,10 +143,12 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
                 print("You have successfully increase your heal magic power.")
             
             elif increase_input == "hres":
-                player['HResistence'] += increase_heat_resist
+                player['HResistance'] += increase_heat_resist
+                player['SPoint'] -= player['SCost']
                 print("Your heat resistance has been increased.")
             elif increase_input == "cres":
-                player['CResistence'] += increase_cold_resist
+                player['CResistance'] += increase_cold_resist
+                player['SPoint'] -= player['SCost']
                 print("Your cold resistance has been increased.")
             else:
                 print("Invalid action.")
