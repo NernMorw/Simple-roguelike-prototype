@@ -2,6 +2,7 @@ import random
 from player import player
 from items import item
 from player_upgrade_actions import player_upgrade_actions
+from magic_actions import magic_actions
 
 def add_item_to_inventory(player_data, item_key, items_data):
     if item_key in items_data:
@@ -18,21 +19,15 @@ def add_item_to_inventory(player_data, item_key, items_data):
 
 bleed_heal = 1
 
-def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
+def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy):
     def return_actions():
         input()
         print("\033c", end="")
-        return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
+        return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy)
     heal_cost = 1
-    fire_arrow_cost = 2
-    necromancy_cost = 4
-    heal_magic_cost = 2
     D = 1
     rest = 1
-
     spawn_necro = False
-    fire_arrow_damg = round(15 * (player['IMagic'] * player['IFArrow']))
-    heal_magic_heal = round(10 * (player['IMagic'] * player['IMHeal']))
 
     valid_actions = ["return", "attack", "strong attack", "strong", "heal", "parry", "defence", "magic", "rest", "run", "inventory", "skill", "use skill points", " "]
     action = ""
@@ -41,7 +36,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         if action not in valid_actions:
             print("Invalid action. Please choose from the list.")
         elif action == "return":
-            return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
+            return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy)
     print('\n')
 
     if action == "attack":
@@ -106,67 +101,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
             print(f"Not enough energy for a strong attack! (Requires {strong_attack_cost} energy)")
     elif action == "magic":
         if player['IMagic'] > 0:
-            print("\033c", end="")
-            print("--- Magic types ---")
-            print(f"Fire arrow, cost: {fire_arrow_cost} energy.")
-            print(f"Necromancy, cost: {necromancy_cost} energy.")
-            print(f"Heal magic, cost: {heal_magic_cost} energy.")
-            print()
-
-            valid_magic_actions = ["fire arrow", "farrow", "necromancy", "necro", "heal magic", "mheal", "return"]
-            magic_action = ""
-            while magic_action not in valid_magic_actions:
-                magic_action = input("\n[Return / Fire arrow / Necromancy / Heal magic]: ").lower()
-                if magic_action not in valid_magic_actions:
-                    print("Invalid magic action. Please choose from the list.")
-                elif magic_action == "return":
-                    return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
-            print("\033c", end="")
-
-            if magic_action == "fire arrow" or magic_action == "farrow":
-                if player['IFArrow'] > 0:
-                    if player['Energy'] >= fire_arrow_cost:
-                        enemy_hp -= fire_arrow_damg
-                        player['Energy'] -= fire_arrow_cost
-                        print("You have successfully cast fire arrow!")
-                        print(f"Enemy took {fire_arrow_damg} damage!")
-                    else:
-                        print(f"Not enough energy for a fire arrow! (Requires {fire_arrow_cost} energy)")
-                        return_actions()
-                else:
-                    print("You can not cast fire arrow due to low skill")
-                    return_actions()
-            elif magic_action == "necromancy" or magic_action == "necro":
-                if player['INecro'] > 0:
-                    if player['Energy'] >= necromancy_cost and can_necromancy:
-                        player['Energy'] -= necromancy_cost
-                        print("You have successfully cast necromancy!")
-                        spawn_necro = True
-                    elif not can_necromancy:
-                        print("You can't cast necromancy!")
-                        return_actions()
-                    else:
-                        print(f"Not enough energy for a necromancy! (Requires {necromancy_cost} energy)")
-                        return_actions()
-                else:
-                    print("You can not cast necromancy due to low skill")
-                    return_actions()
-            elif magic_action == "heal magic" or magic_action == "mheal":
-                if player['IMHeal'] > 0:
-                    if player['Energy'] >= heal_magic_cost:
-                        player['Energy'] -= heal_magic_cost
-                        player['HP'] += heal_magic_heal
-                        print("You have successfully cast heal magic!")
-                        print(f"You healed for {heal_magic_heal} HP.")
-                    else:
-                        print(f"Not enough energy for a heal magic! (Requires {heal_magic_cost} energy)")
-                        return_actions()
-                else:
-                    print("You can not cast heal magic due to low skill")
-                    return_actions()
-            else:
-                print("Invalid magic type.")
-                return_actions()
+            enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy = magic_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy)
         else:
             print("You can not cast any magic type due to low magic skill")
             return_actions()
@@ -226,4 +161,4 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         print("Invalid action.")
         return_actions()
 
-    return enemy_hp, edmg, bleed, False, spawn_necro
+    return enemy_hp, edmg, bleed, False, spawn_necro, current_enemy

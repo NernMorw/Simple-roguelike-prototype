@@ -4,7 +4,6 @@ from enemies import enemy_types
 from player_actions import actions, add_item_to_inventory
 from items import item
 
-
 def start_combat():
     bleed = 0
     can_necromancy = True
@@ -55,6 +54,14 @@ def start_combat():
         bleed_attack = 0.4 * edmg
         bdmg = random.randint(1, 5)
 
+        if "HATK" in current_enemy or "CATK" in current_enemy:
+            if "HATK" in current_enemy:
+                edmg *= (current_enemy['HATK'] / player['HResistance'])
+            if "CATK" in current_enemy:
+                edmg *= (current_enemy['CATK'] / player['CResistance'])
+        else:
+            edmg /= player['Resistance']
+
         if spawn_necro and not necro_spawned:
             necro_number += 1
             renecro = 1 * necro_number
@@ -67,7 +74,7 @@ def start_combat():
             print("\nNecro has been spawned")
         elif not spawn_necro and not necro_spawned:
             necro_hp = 1
-        print(necromancy_name)
+
         print(f"\n-- {player['Name']} --")
         print("HP:       ", round(player['HP']), "/", player['Max_HP'])
         print("Energy:   ", player['Energy'], "/", player['Max_Energy'])
@@ -79,23 +86,23 @@ def start_combat():
         if necro_spawned:
             print(f"\n- {necromancy_name} -")
             print(f"Level: {necro_level}")
-            print(f"HP: {round(necro_hp)}")
-            print(f"ATK: {round(necro_atk)}")
+            print(f"HP:    {round(necro_hp)}")
+            print(f"ATK:   {round(necro_atk)}")
 
         print(f"\n-- {chosen_enemy_name} --")
         print("Enemy HP:  ", round(enemy_hp))
         print("Enemy ATK: ", round(enemy_atk))
 
-        enemy_hp, edmg, bleed, fled, spawn_necro = actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
+        enemy_hp, edmg, bleed, fled, spawn_necro, current_enemy = actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy)
 
         if necro_spawned:
             sdmg = random.randint(1, round(necro_atk))
             enemy_hp -= sdmg
-            print(f"necro deal {sdmg} damage")
+            print(f"{necromancy_name} deal {sdmg} damage")
 
         if fled:
             return
-
+        
         if player['HP'] > player['Max_HP']:
             player['HP'] = player['Max_HP']
 

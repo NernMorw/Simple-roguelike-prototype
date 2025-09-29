@@ -1,5 +1,5 @@
 # Proto-Game #3
-# Version: prototype-IDK
+# Version: IDK
 
 import random
 from player import player

@@ -22,4 +22,22 @@ enemy_types = {
         "ATK": 10,
         "EXP_Gain": 40
     },
+    "Fire imp": {
+        "HP": 80,
+        "Max_HP": 80,
+        "Level": 1,
+        "ATK": 15,
+        "HATK": 2,
+        "HResistance": 2,
+        "EXP_Gain": 60
+    },
+    "Ice imp":{
+        "HP": 80,
+        "Max_HP": 80,
+        "Level": 1,
+        "ATK": 15,
+        "CATK": 2,
+        "CResistance": 2,
+        "EXP_Gain": 60
+    }
 }
