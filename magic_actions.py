@@ -6,10 +6,10 @@ def magic_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enem
         exit = True
         def attack_magic(enemy_hp, current_magic_damg, current_magic_cost, current_magic_name, exit):
             if player['Energy'] >= current_magic_cost:
-                enemy_hp -= current_magic_damg
+                enemy_hp -= round(current_magic_damg)
                 player['Energy'] -= current_magic_cost
                 print(f"You have successfully cast {current_magic_name}!")
-                print(f"Enemy took {current_magic_damg} damage!")
+                print(f"Enemy took {round(current_magic_damg)} damage!")
             else:
                 print(f"Not enough energy for a {current_magic_name}! (Requires {current_magic_cost} energy)")
                 exit = False
@@ -22,18 +22,18 @@ def magic_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enem
         necromancy_cost = 4
         heal_magic_cost = 2
 
-        fdmg = 1
-        idmg = 1
+        hdmg = 1
+        cdmg = 1
 
         if "HResistance" in current_enemy:
-            fdmg /= current_enemy['HResistance']
-            idmg *= 2
+            hdmg /= current_enemy['HResistance']
+            cdmg *= 2
         if "CResistance" in current_enemy:
-            idmg /= current_enemy['CResistance']
-            fdmg *= 2
+            cdmg /= current_enemy['CResistance']
+            hdmg *= 2
 
-        fire_arrow_damg = round(15 * (player['IMagic'] * player['IFArrow'] * fdmg))
-        frost_bolt_damg = round(15 * (player['IMagic'] * player['IFBolt'] * idmg))
+        fire_arrow_damg = round(15 * (player['IMagic'] * player['IFArrow'] * hdmg))
+        frost_bolt_damg = round(15 * (player['IMagic'] * player['IFBolt'] * cdmg))
         heal_magic_heal = round(10 * (player['IMagic'] * player['IMHeal']))
 
         print("\033c", end="")
@@ -56,13 +56,13 @@ def magic_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enem
 
         if magic_action == "fire arrow" or magic_action == "farrow":
             if player['IFArrow'] > 0:
-                enemy_hp = attack_magic(enemy_hp, fire_arrow_damg, fire_arrow_cost, "fire arrow", exit)
+                enemy_hp, exit = attack_magic(enemy_hp, fire_arrow_damg, fire_arrow_cost, "fire arrow", exit)
             else:
                 print("You can not cast fire arrow due to low skill")
                 exit = False
         elif magic_action == "frost bolt" or magic_action == "fbolt":
             if player['IFBolt'] > 0:
-                enemy_hp = attack_magic(enemy_hp, frost_bolt_damg, frost_bolt_cost, "frost bolt", exit)
+                enemy_hp, exit = attack_magic(enemy_hp, frost_bolt_damg, frost_bolt_cost, "frost bolt", exit)
             else:
                 print("You can not cast frost bolt due to low skill")
                 exit = False

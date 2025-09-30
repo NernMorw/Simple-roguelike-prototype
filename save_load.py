@@ -13,7 +13,6 @@ def save_game():
         print(f"\nGame saved error: {e}")
 
 def load_game():
-    global player
     SAVE_FILE_INPUT = input("Save navne: ")
     SAVE_FILE = f"{SAVE_FILE_INPUT}.json"
     try:

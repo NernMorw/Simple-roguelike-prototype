@@ -70,7 +70,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy):
             enemy_hp -= round(0.5 * edmg)
             edmg = 0
             player['Energy'] -= parry_cost
-            print(f"You have successfully parry enemy attack! Enemy take {round(0.5 * enemy_atk)} damage!")
+            print(f"You have successfully parry enemy attack! Enemy take {round(0.5 * edmg)} damage!")
         else:
             print(f"Not enough energy to parry! (Requires {parry_cost} energy)")
     elif action == "defence":
