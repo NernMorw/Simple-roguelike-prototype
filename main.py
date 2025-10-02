@@ -209,7 +209,7 @@ if not game_loaded:
         player['IMagic'] += 1.5
         player['INecro'] += 6
         player['IMHeal'] += 3
-        player['HP'] -= 30
+        player['Max_HP'] -= 30
     clear()
 
     if player['SPoint'] > 0:
@@ -217,7 +217,7 @@ if not game_loaded:
         print("Do you want to youse your SPoints? (yes/no)")
         yes_input = input("").lower()
         if yes_input == "yes":
-            player_upgrade_actions(0,0,0,0,0)
+            player_upgrade_actions(0,0,0,0)
 
     player['Energy'] = player['Max_Energy']
     player['HP'] = player['Max_HP']

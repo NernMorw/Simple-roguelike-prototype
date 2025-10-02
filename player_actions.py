@@ -19,11 +19,11 @@ def add_item_to_inventory(player_data, item_key, items_data):
 
 bleed_heal = 1
 
-def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy):
+def actions(enemy_hp, edmg, bleed, can_necromancy, current_enemy):
     def return_actions():
         input()
         print("\033c", end="")
-        return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy)
+        return actions(enemy_hp, edmg, bleed, can_necromancy, current_enemy)
     heal_cost = 1
     D = 1
     rest = 1
@@ -36,7 +36,7 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy):
         if action not in valid_actions:
             print("Invalid action. Please choose from the list.")
         elif action == "return":
-            return actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy)
+            return actions(enemy_hp, edmg, bleed, can_necromancy, current_enemy)
     print('\n')
 
     if action == "attack":
@@ -101,7 +101,8 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy):
             print(f"Not enough energy for a strong attack! (Requires {strong_attack_cost} energy)")
     elif action == "magic":
         if player['IMagic'] > 0:
-            enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy = magic_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy)
+            enemy_hp, edmg, bleed, spawn_necro, current_enemy = magic_actions(enemy_hp, edmg, bleed, can_necromancy, current_enemy)
+            return enemy_hp, edmg, bleed, spawn_necro, current_enemy
         else:
             print("You can not cast any magic type due to low magic skill")
             return_actions()
@@ -155,10 +156,10 @@ def actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy):
                 else:
                     print("You have decided not to use the item.")
     elif action == "use skill points" or action == "skill":
-        player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy)
+        player_upgrade_actions(enemy_hp, edmg, bleed, current_enemy)
         return_actions()
     else:
         print("Invalid action.")
         return_actions()
 
-    return enemy_hp, edmg, bleed, False, spawn_necro, current_enemy
+    return enemy_hp, edmg, bleed, False, current_enemy

@@ -1,6 +1,6 @@
 from player import player
 
-def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
+def player_upgrade_actions(enemy_hp, edmg, bleed, current_enemy):
     exit = False
     while not exit:
         print("\033c", end="")
@@ -157,4 +157,4 @@ def player_upgrade_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy):
         else:
             print("Not enough SPoints")
     print("\033c", end="")
-    return enemy_hp, edmg, bleed, enemy_atk, can_necromancy
+    return enemy_hp, edmg, bleed, current_enemy

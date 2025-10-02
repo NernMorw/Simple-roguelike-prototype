@@ -95,15 +95,12 @@ def start_combat():
         print("Enemy HP:  ", round(enemy_hp))
         print("Enemy ATK: ", round(enemy_atk))
 
-        enemy_hp, edmg, bleed, fled, spawn_necro, current_enemy = actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy)
+        enemy_hp, edmg, bleed, spawn_necro, current_enemy = actions(enemy_hp, edmg, bleed, can_necromancy, current_enemy)
 
         if necro_spawned:
             sdmg = random.randint(1, round(necro_atk))
             enemy_hp -= sdmg
             print(f"{necromancy_name} deal {sdmg} damage")
-
-        if fled:
-            return
         
         if player['HP'] > player['Max_HP']:
             player['HP'] = player['Max_HP']

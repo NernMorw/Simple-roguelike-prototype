@@ -1,6 +1,6 @@
 from player import player
 
-def magic_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy):
+def magic_actions(enemy_hp, edmg, bleed, can_necromancy, current_enemy):
     exit = False
     while not exit:
         exit = True
@@ -51,7 +51,7 @@ def magic_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enem
             if magic_action not in valid_magic_actions:
                 print("Invalid magic action. Please choose from the list.")
             elif magic_action == "return":
-                return enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enemy
+                return enemy_hp, edmg, bleed, can_necromancy, current_enemy
         print("\033c", end="")
 
         if magic_action == "fire arrow" or magic_action == "farrow":
@@ -96,4 +96,4 @@ def magic_actions(enemy_hp, edmg, bleed, enemy_atk, can_necromancy, current_enem
         else:
             print("Invalid magic type.")
             exit = False
-    return enemy_hp, edmg, bleed, False, spawn_necro, current_enemy
+    return enemy_hp, edmg, bleed, spawn_necro, current_enemy
